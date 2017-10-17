@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<meta charset="utf-8">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/Scripts/Datatables/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/Datatables/css/jquery.dataTables.css" />
+<script src="~/Scripts/Datatables/jquery.dataTables.js"></script>
+
+<body>
+    <div id="navButtons" style="float:left">
+        <button class="btn btn-default" id="btnUsers"> Users </button>
+        <button class="btn btn-default" id="btnCompetitions"> Users </button>
+        <button class="btn btn-default" id="btnLandmarks"> Users </button>
+    </div>
+
+    <div id="divUsers">
+        <table id="tableUsers" class="table inverse table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Username</th>
+                    <th>E-mail</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div id="divCompetitions">
+        <table id="tableCompetitions" class="table inverse table-hover">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Name</th>
+                    <th>Starting date</th>
+                    <th>Ending date</th>
+                    <th>Type</th>
+                    <th>City</th>
+                    <th>No of landmarks</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div id="divLandmarks">
+        <table id="tableLandmarks" class="table inverse table-hover">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+
+<div id="drawTableUsers">
+    <script>
+         $(document).ready(function () {
+             $('#tableUsers').DataTable({
+                        "processing": true,
+                        responsive: true,
+                        "serverSide": true,
+
+                        "aLengthMenu": [[5, 10, 15], [5, 10, 15]],
+                        "ajax": {
+                            "url": '@Url.Action("LoadUsers", "Admin")',
+                            "type": "POST",
+                            "datatype": "json"
+                        },
+                        "columns": [
+
+                            { "data": "Named", "name": "Name", "autoWidth": true },
+                            { "data": "Surname", "name": "Surname", "autoWidth": true },
+                            { "data": "Username", "name": "Username", "autoWidth": true },
+                            { "data": "Email", "name": "E-mail", "autoWidth": true },
+                            {
+                                'render': function (data, type, row)
+                                { return "<button type='button' class='btn btn-success' style='color:white' onclick='DeleteUser(this)'><span class='glyphicon glyphicon-trash'></span> Delete</button>"; }
+                            },
+                        ]
+            });
+         });
+</script>
+</div>

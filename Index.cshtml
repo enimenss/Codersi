@@ -1,0 +1,62 @@
+﻿<style>
+    img[src="/Images/aca.jpg"] { border-radius: 16px; border: 1px solid #000 !important;
+    }
+    .customMarker {
+        position: absolute;
+        cursor: pointer;
+        background: #424242;
+        width: 100px;
+        height: 100px;
+        /* -width/2 */
+        margin-left: -50px;
+        /* -height + arrow */
+        margin-top: -110px;
+        border-radius: 50%;
+        padding: 0px;
+    }
+
+        .customMarker:after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 40px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: #424242 transparent;
+            display: block;
+            width: 0;
+        }
+
+        .customMarker img {
+            width: 90px;
+            height: 90px;
+            margin: 5px;
+            border-radius: 50%;
+        }
+</style>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="mapPlace" style="width:100%;height:400px;">
+
+</div>
+
+<script>
+    function init()
+    {
+        CreateMap();
+        setInterval(UpdateMyPosition, 1000);
+        //PopulateTeamData();
+    }
+    var TeamData = new FormData();
+    var ServerAddres= "@Request.Url.Scheme" + "://" + "@Request.Url.Authority" + "@Request.ApplicationPath.TrimEnd('/')" + "/";
+    var myIndetification='@Session["User"]';
+</script>
+<script src="~/Scripts/MojaChatScripta/GoogleMaps.js"></script>
+<script src="https://maps.google.com/maps/api/js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBc7KOVKh1JtwlqCg2szebB7vlHtht2bXQ&callback=init"></script>
+
+
+

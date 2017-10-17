@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div> 
+      <button onclick="javiSe()">JaviSe</button>
+        <ul id="JavioSe"></ul>
+    </div>
+</body>
+</html>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+<script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+
+<script>
+
+    $(function () {
+
+        var myHub = $.connection.CodersHub;
+
+        myHub.client.jsJaviSe = function () {
+            $("#JavioSe").append("<li>jeeeeeeeeeeee</li>");
+        }
+
+        myHub.client.updateClientPosition(x, y, guid) = function () {
+            //update njegove kordinate na tvojoj mapi
+        }
+
+
+         $.connection.hub.qs = { "GUID":'@Session["user"].ToString()' };
+        $.connection.hub.start().done(function () {
+
+           javiSe = function () {
+
+              
+               myHub.server.javiSe("dbbc71f1-1912-4a6c-ba38-84fe2f72e742");
+            }
+
+
+        });
+    });
+</script>
