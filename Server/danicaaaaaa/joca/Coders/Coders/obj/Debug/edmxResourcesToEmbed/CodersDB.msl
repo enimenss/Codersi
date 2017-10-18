@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CodersModelStoreContainer" CdmEntityContainer="CodersEntities">
+    <EntitySetMapping Name="Competitions">
+      <EntityTypeMapping TypeName="CodersModel.Competition">
+        <MappingFragment StoreEntitySet="Competition">
+          <ScalarProperty Name="Guid" ColumnName="Guid" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="LandmarkCount" ColumnName="LandmarkCount" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="EndingDate" ColumnName="EndingDate" />
+          <ScalarProperty Name="StartingDate" ColumnName="StartingDate" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="CodersModel.Group">
+        <MappingFragment StoreEntitySet="Groups">
+          <ScalarProperty Name="Guid" ColumnName="Guid" />
+          <ScalarProperty Name="CountOfFounds" ColumnName="CountOfFounds" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Hints">
+      <EntityTypeMapping TypeName="CodersModel.Hint">
+        <MappingFragment StoreEntitySet="Hints">
+          <ScalarProperty Name="Landmark_Id" ColumnName="Landmark_Id" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Landmarks">
+      <EntityTypeMapping TypeName="CodersModel.Landmark">
+        <MappingFragment StoreEntitySet="Landmark">
+          <ScalarProperty Name="Location_Y" ColumnName="Location_Y" />
+          <ScalarProperty Name="Location_X" ColumnName="Location_X" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="FilePathLandmark" ColumnName="FilePathLandmark" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Members">
+      <EntityTypeMapping TypeName="CodersModel.Member">
+        <MappingFragment StoreEntitySet="Members">
+          <ScalarProperty Name="Groups_Id" ColumnName="Groups_Id" />
+          <ScalarProperty Name="Users_Id" ColumnName="Users_Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="CodersModel.Message">
+        <MappingFragment StoreEntitySet="Messages">
+          <ScalarProperty Name="Groups_Id" ColumnName="Groups_Id" />
+          <ScalarProperty Name="Users_Id" ColumnName="Users_Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Message1" ColumnName="Message" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Participants">
+      <EntityTypeMapping TypeName="CodersModel.Participant">
+        <MappingFragment StoreEntitySet="Participants">
+          <ScalarProperty Name="Groups_Id" ColumnName="Groups_Id" />
+          <ScalarProperty Name="Competition_Id" ColumnName="Competition_Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Solutions">
+      <EntityTypeMapping TypeName="CodersModel.Solution">
+        <MappingFragment StoreEntitySet="Solutions">
+          <ScalarProperty Name="LandmarkChild_Id" ColumnName="LandmarkChild_Id" />
+          <ScalarProperty Name="LandmarkParent_Id" ColumnName="LandmarkParent_Id" />
+          <ScalarProperty Name="Groups_Id" ColumnName="Groups_Id" />
+          <ScalarProperty Name="Fulfilled" ColumnName="Fulfilled" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="CodersModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Location_Y" ColumnName="Location_Y" />
+          <ScalarProperty Name="Location_X" ColumnName="Location_X" />
+          <ScalarProperty Name="Picture" ColumnName="Picture" />
+          <ScalarProperty Name="Guid" ColumnName="Guid" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Named" ColumnName="Named" />
+          <ScalarProperty Name="Pass" ColumnName="Pass" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

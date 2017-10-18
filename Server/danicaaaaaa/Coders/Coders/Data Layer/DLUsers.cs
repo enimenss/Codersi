@@ -41,18 +41,35 @@ namespace Coders.Data_Layer
 
         public int ReturnUserCount()
         {
-            return (from u in db.Users select u).Count();
+            using (db = new CodersEntities())
+            {
+                return (from u in db.Users select u).ToList().Count;
+            }
         }
 
         public List<UserView> ReturnUsers(int skip, int take)
         {
-            List<User> users = (from l in db.Users select l).Skip(skip).Take(take).ToList();
-            List<UserView> usersView = new List<UserView> ();
-            foreach (User u in users)
+            using (db = new CodersEntities())
             {
-                usersView.Add(new  UserView(u));
+                List<User> users = (from l in db.Users select l).OrderBy(x => x.Id).Skip(skip).Take(take).ToList();
+                List<UserView> usersView = new List<UserView>();
+                foreach (User u in users)
+                {
+                    usersView.Add(new UserView(u));
+                }
+                return usersView;
             }
-            return usersView;
+        }
+
+        public void DeleteUser(int id)
+        {
+            using (db = new CodersEntities())
+            {
+                User user = db.Users.Find(id);
+                db.Users.Attach(user);
+                //user.Deleted = 1;
+                db.SaveChanges();
+            }
         }
     }
 }

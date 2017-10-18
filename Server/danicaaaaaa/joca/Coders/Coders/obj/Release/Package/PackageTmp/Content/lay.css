@@ -1,0 +1,170 @@
+﻿ 
+        .badge{
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color:red;
+    border-radius: 10px;
+}
+.round-corner {
+    -webkit-border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.reg
+{
+
+	color: white;
+	height:60%; 
+	width: 80%;
+	font-size: 170%; 
+	font-weight: 900; 
+	font-family: 'MedievalSharp'; 
+	margin-left:auto; 
+	margin-right:auto; 
+	margin-top: 70%;
+    margin-bottom:2%;
+
+}
+
+
+
+    .badge-notify{
+     background:red;
+     background-color:red;
+     margin:auto;
+     -moz-transform: translate(-100%, -100%); /* For Firefox */
+     -ms-transform: translate(-100%, -100%); /* for IE */
+     -webkit-transform: translate(-100%, -100%); /* For Safari, Chrome, iOS */
+     -o-transform: translate(-100%, -100%); /* For Opera */
+    }
+             .messages{
+    border: 1px solid #ccc;
+    width: 400px;
+    height: 200px;
+    padding: 10px;
+    overflow-y:scroll;
+    background-color:lightblue;
+     word-wrap: break-word; 
+
+     text-overflow: ellipsis;
+
+     }
+
+    .zaAjaxPoruke{
+    border: 1px solid #ccc;
+    width: 400px;
+    height: 250px;
+    padding: 10px;
+    overflow-y:scroll;
+    background-color:lightblue;
+     word-wrap: break-word; 
+
+     text-overflow: ellipsis;
+
+     }
+
+             .online {
+    border: 1px solid #ccc;
+    width: 200px;
+    height: 150px;
+    padding: 10px;
+    overflow-y:scroll;
+    background-color:lightblue;
+     word-wrap: break-word; 
+     text-overflow: ellipsis;
+
+     }
+
+ .circle{
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    width:13px;
+    height:13px;
+    float:right;
+    position:center;
+    background-color:darkgreen;
+    color:darkgreen;
+}
+
+  .circleOff{
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    width:10px;
+    height:10px;
+    float:right;
+    position:center;
+    background-color:black;
+    color:black;
+}
+
+
+
+ .posalji{
+  }
+
+
+   
+.dropbtn {
+    background-color:#333333;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: black;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 350px;
+    overflow: scroll;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding:0;
+    margin:auto
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+
+ .zaPoruke {
+    border: 1px solid #ccc;
+    width: 600px;
+    height: 500px;
+    padding: 10px;
+    overflow-y:scroll;
+    background-color:lightgreen;
+     word-wrap: break-word; 
+     text-overflow: ellipsis;
+     }

@@ -41,18 +41,51 @@ namespace Coders.Data_Layer
            
         public int ReturnLandmarkCount()
         {
-           return (from l in db.Landmarks where l.Deleted == 0 select l).Count();
+            using (db = new CodersEntities())
+            {
+                return (from l in db.Landmarks where l.Deleted == 0 || l.Deleted == null select l).ToList().Count();
+            }
         }
 
-        public List<LandmarkView> ReturnLandmark(int skip, int take)
+        public List<LandmarkView> ReturnLandmarks(int skip, int take)
         {
-            List<Landmark> ladmarks = (from l in db.Landmarks where l.Deleted == 0 select l).Skip(skip).Take(take).ToList();
-            List<LandmarkView> landmarksView = new List<LandmarkView>();
-            foreach (Landmark l in ladmarks)
+            using (db = new CodersEntities())
             {
-                landmarksView.Add(new LandmarkView(l));
+                List<Landmark> ladmarks = (from l in db.Landmarks where l.Deleted == 0 select l).OrderBy(x=>x.Id).Skip(skip).Take(take).ToList();
+                List<LandmarkView> landmarksView = new List<LandmarkView>();
+                foreach (Landmark l in ladmarks)
+                {
+                    landmarksView.Add(new LandmarkView(l));
+                }
+                return landmarksView;
             }
-            return landmarksView;
+        }
+
+        public void DeleteLandmark(int id)
+        {
+            using (db = new CodersEntities())
+            {
+                Landmark landmark = db.Landmarks.Find(id);
+                db.Landmarks.Attach(landmark);
+                landmark.Deleted = 1;
+                db.SaveChanges();
+            }
+        }
+
+        public void ChangeLandmark(LandmarkView landmarkView)       //nije dobroooooo mora dorada!!!!!
+        {
+            using (db = new CodersEntities())
+            {
+                Landmark landmark = db.Landmarks.Find(landmarkView.Id);
+                if (landmark != null)
+                {
+                    db.Landmarks.Attach(landmark);
+                    landmark.City = landmarkView.City;
+                    landmark.Name = landmarkView.Name;
+
+                    db.SaveChanges();
+                }
+            }
         }
     }
                 

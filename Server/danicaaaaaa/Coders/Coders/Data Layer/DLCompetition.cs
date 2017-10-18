@@ -41,18 +41,55 @@ namespace Coders.Data_Layer
 
         public int ReturnCompetitionCount()
         {
-            return (from c in db.Competitions select c).Count();
+            using (db = new CodersEntities())
+            {
+                return (from c in db.Competitions select c).Count();
+            }
         }
 
         public List<CompetitionView> ReturnCompetitions(int skip, int take)
         {
-            List<Competition> competitions = (from c in db.Competitions select c).Skip(skip).Take(take).ToList();
-            List<CompetitionView> competitionsView = new List<CompetitionView>();
-            foreach (Competition c in competitions)
+            using (db = new CodersEntities())
             {
-                competitionsView.Add(new CompetitionView(c));
+                List<Competition> competitions = (from c in db.Competitions select c).OrderBy(x => x.Id).Skip(skip).Take(take).ToList();
+                List<CompetitionView> competitionsView = new List<CompetitionView>();
+                foreach (Competition c in competitions)
+                {
+                    competitionsView.Add(new CompetitionView(c));
+                }
+                return competitionsView;
             }
-            return competitionsView;
+        }
+
+        public void DeleteCompetition(int id)
+        {
+            using (db = new CodersEntities())
+            {
+                Competition competition = db.Competitions.Find(id);
+                db.Competitions.Attach(competition);
+                //competition.Deleted = 1;
+                db.SaveChanges();
+            }
+        }
+
+        public void ChangeCompetition(CompetitionView competitionView)
+        {
+            using (db = new CodersEntities())
+            {
+                Competition competition = db.Competitions.Find(competitionView.Id);
+                if(competition != null)
+                {
+                    db.Competitions.Attach(competition);
+                    competition.LandmarkCount = competitionView.LandmarkCount;
+                    competition.Name = competitionView.Name;
+                    competition.StartingDate = DateTime.Parse(competitionView.StartingDate);
+                    competition.Type = competitionView.Type;
+                    competition.EndingDate = DateTime.Parse(competitionView.EndingDate);
+                    competition.City = competitionView.City;
+
+                    db.SaveChanges();
+                }
+            }
         }
     }
 }

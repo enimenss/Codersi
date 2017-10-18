@@ -26,6 +26,8 @@ namespace Coders
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/ScriptForAdmin").Include("~/Scripts/Coders/AdminJS.js"));
         }
     }
 }

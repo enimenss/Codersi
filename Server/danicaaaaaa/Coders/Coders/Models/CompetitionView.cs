@@ -9,8 +9,8 @@ namespace Coders.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public System.DateTime StartingDate { get; set; }
-        public System.DateTime EndingDate { get; set; }
+        public string StartingDate { get; set; }
+        public string EndingDate { get; set; }
         public int Type { get; set; }
         public Nullable<int> LandmarkCount { get; set; }
         public int City { get; set; }
@@ -22,8 +22,8 @@ namespace Coders.Models
         {
             Id = c.Id;
             Name = c.Name;
-            StartingDate = c.StartingDate;
-            EndingDate = c.EndingDate;
+            StartingDate = c.StartingDate.ToString();
+            EndingDate = c.EndingDate.ToString();
             Type = c.Type;
             LandmarkCount = c.LandmarkCount;
             City = c.City;

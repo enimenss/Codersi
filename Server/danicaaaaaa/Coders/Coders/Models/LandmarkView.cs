@@ -15,12 +15,13 @@ namespace Coders.Models
         public Nullable<double> Location_Y { get; set; }
         public string FilePathLandmark { get; set; }
         public Nullable<int> Deleted { get; set; }
+        public List<Hint> Hints { get; set; }
 
         public LandmarkView() { }
 
         public LandmarkView(Landmark l)
         {
-           Id = l.Id;
+            Id = l.Id;
             Name = l.Name;
             City = l.City;
             FilePath = l.FilePath;
@@ -28,6 +29,8 @@ namespace Coders.Models
             Location_Y = l.Location_Y;
             FilePathLandmark = l.FilePathLandmark;
             Deleted = l.Deleted;
+
+            Hints = DLHint.Data.ReturnHints(Id);
         }
     }
 }

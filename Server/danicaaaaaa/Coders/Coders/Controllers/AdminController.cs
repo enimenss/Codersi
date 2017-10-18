@@ -10,9 +10,9 @@ namespace Coders.Controllers
 {
     public class AdminController : Controller
     {
-        int userFilter = -1;
-        int competitionFilter = -1;
-        int landmarkFilter = -1;
+        static int userFilter = -1;
+        static int competitionFilter = -1;
+        static int landmarkFilter = -1;
 
         // GET: Admin
         public ActionResult Index()
@@ -31,7 +31,7 @@ namespace Coders.Controllers
 
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
-            int recordsTotal = DLLandmarks.Data.ReturnLandmarkCount();
+            int recordsTotal = DLUser.Data.ReturnUserCount();
 
             List<UserView> usersView = new List<UserView>();
 
@@ -43,11 +43,10 @@ namespace Coders.Controllers
                 {
                     switch (userFilter)
                     {
-                        case 0: usersView = usersView.Where(x => x.Id.ToString().Contains(search.ToUpper())).ToList(); break;
-                        case 1: usersView = usersView.Where(x => x.Named.Contains(search.ToUpper())).ToList(); break;
-                        case 2: usersView = usersView.Where(x => x.Surname.ToString().Contains(search.ToUpper())).ToList(); break;
-                        case 3: usersView = usersView.Where(x => x.Username.Contains(search.ToUpper())).ToList(); break;
-                        case 4: usersView = usersView.Where(x => x.Email.ToString().Contains(search.ToUpper())).ToList(); break;
+                        case 1: usersView = usersView.Where(x => x.Named.ToLower().Contains(search.ToLower())).ToList(); break;
+                        case 2: usersView = usersView.Where(x => x.Surname.ToLower().ToString().Contains(search.ToLower())).ToList(); break;
+                        case 3: usersView = usersView.Where(x => x.Username.ToLower().Contains(search.ToLower())).ToList(); break;
+                        case 4: usersView = usersView.Where(x => x.Email.ToLower().ToString().Contains(search.ToLower())).ToList(); break;
                         default: break;
                     }
                 }
@@ -68,7 +67,6 @@ namespace Coders.Controllers
                 {
                     switch (int.Parse(sortColumn))
                     {
-                        case 0: usersView = usersView.OrderByDescending(x => x.Id).ToList(); break;
                         case 1: usersView = usersView.OrderByDescending(x => x.Named).ToList(); break;
                         case 2: usersView = usersView.OrderByDescending(x => x.Surname).ToList(); break;
                         case 3: usersView = usersView.OrderByDescending(x => x.Username).ToList(); break;
@@ -80,7 +78,6 @@ namespace Coders.Controllers
                 {
                     switch (int.Parse(sortColumn))
                     {
-                        case 0: usersView = usersView.OrderBy(x => x.Id).ToList(); break;
                         case 1: usersView = usersView.OrderBy(x => x.Named).ToList(); break;
                         case 2: usersView = usersView.OrderBy(x => x.Surname).ToList(); break;
                         case 3: usersView = usersView.OrderBy(x => x.Username).ToList(); break;
@@ -114,15 +111,15 @@ namespace Coders.Controllers
 
                 if (competitionFilter != -1)
                 {
-                    switch (landmarkFilter)
+                    switch (competitionFilter)
                     {
-                        case 0: competitionsView = competitionsView.Where(x => x.Id.ToString().Contains(search.ToUpper())).ToList(); break;
-                        case 1: competitionsView = competitionsView.Where(x => x.Name.Contains(search.ToUpper())).ToList(); break;
-                        case 2: competitionsView = competitionsView.Where(x => x.StartingDate.ToString().Contains(search.ToUpper())).ToList(); break;
-                        case 4: competitionsView = competitionsView.Where(x => x.Type.ToString().Contains(search.ToUpper())).ToList(); break;
-                        case 3: competitionsView = competitionsView.Where(x => x.EndingDate.ToString().Contains(search.ToUpper())).ToList(); break;
-                        //case 5: competitionsView = competitionsView.Where(x => x.City.Contains(search.ToUpper())).ToList(); break;
-                        case 6: competitionsView = competitionsView.Where(x => x.LandmarkCount.ToString().Contains(search.ToUpper())).ToList(); break;
+                        case 1: competitionsView = competitionsView.Where(x => x.Id.ToString().Contains(search.ToLower())).ToList(); break;
+                        case 2: competitionsView = competitionsView.Where(x => x.Name.ToLower().Contains(search.ToLower())).ToList(); break;
+                        case 3: competitionsView = competitionsView.Where(x => x.StartingDate.ToString().Contains(search.ToLower())).ToList(); break;
+                        case 4: competitionsView = competitionsView.Where(x => x.Type.ToString().Contains(search.ToLower())).ToList(); break;
+                        case 5: competitionsView = competitionsView.Where(x => x.EndingDate.ToString().Contains(search.ToLower())).ToList(); break;
+                        //case 6: competitionsView = competitionsView.Where(x => x.City.Contains(search.ToUpper())).ToList(); break;
+                        case 7: competitionsView = competitionsView.Where(x => x.LandmarkCount.ToString().Contains(search.ToLower())).ToList(); break;
                         default: break;
                     }
                 }
@@ -143,13 +140,13 @@ namespace Coders.Controllers
                 {
                     switch (int.Parse(sortColumn))
                     {
-                        case 0: competitionsView = competitionsView.OrderByDescending(x => x.Id).ToList(); break;
-                        case 1: competitionsView = competitionsView.OrderByDescending(x => x.Name).ToList(); break;
-                        case 2: competitionsView = competitionsView.OrderByDescending(x => x.StartingDate).ToList(); break;
-                        case 3: competitionsView = competitionsView.OrderByDescending(x => x.EndingDate).ToList(); break;
-                        case 4: competitionsView = competitionsView.OrderByDescending(x => x.Type).ToList(); break;
-                        case 5: competitionsView = competitionsView.OrderByDescending(x => x.City).ToList(); break;
-                        case 6: competitionsView = competitionsView.OrderByDescending(x => x.LandmarkCount).ToList(); break;
+                        case 1: competitionsView = competitionsView.OrderByDescending(x => x.Id).ToList(); break;
+                        case 2: competitionsView = competitionsView.OrderByDescending(x => x.Name).ToList(); break;
+                        case 3: competitionsView = competitionsView.OrderByDescending(x => x.StartingDate).ToList(); break;
+                        case 4: competitionsView = competitionsView.OrderByDescending(x => x.EndingDate).ToList(); break;
+                        case 5: competitionsView = competitionsView.OrderByDescending(x => x.Type).ToList(); break;
+                        case 6: competitionsView = competitionsView.OrderByDescending(x => x.City).ToList(); break;
+                        case 7: competitionsView = competitionsView.OrderByDescending(x => x.LandmarkCount).ToList(); break;
                         default: break;
                     }
                 }
@@ -157,13 +154,13 @@ namespace Coders.Controllers
                 {
                     switch (int.Parse(sortColumn))
                     {
-                        case 0: competitionsView = competitionsView.OrderBy(x => x.Id).ToList(); break;
-                        case 1: competitionsView = competitionsView.OrderBy(x => x.Name).ToList(); break;
-                        case 2: competitionsView = competitionsView.OrderBy(x => x.StartingDate).ToList(); break;
-                        case 3: competitionsView = competitionsView.OrderBy(x => x.EndingDate).ToList(); break;
-                        case 4: competitionsView = competitionsView.OrderBy(x => x.Type).ToList(); break;
-                        case 5: competitionsView = competitionsView.OrderBy(x => x.City).ToList(); break;
-                        case 6: competitionsView = competitionsView.OrderBy(x => x.LandmarkCount).ToList(); break;
+                        case 1: competitionsView = competitionsView.OrderBy(x => x.Id).ToList(); break;
+                        case 2: competitionsView = competitionsView.OrderBy(x => x.Name).ToList(); break;
+                        case 3: competitionsView = competitionsView.OrderBy(x => x.StartingDate).ToList(); break;
+                        case 4: competitionsView = competitionsView.OrderBy(x => x.EndingDate).ToList(); break;
+                        case 5: competitionsView = competitionsView.OrderBy(x => x.Type).ToList(); break;
+                        case 6: competitionsView = competitionsView.OrderBy(x => x.City).ToList(); break;
+                        case 7: competitionsView = competitionsView.OrderBy(x => x.LandmarkCount).ToList(); break;
 
                         default: break;
                     }
@@ -196,9 +193,9 @@ namespace Coders.Controllers
                 {
                     switch (landmarkFilter)
                     {
-                        case 1: landmarkViews = landmarkViews.Where(x => x.Id.ToString().Contains(search.ToUpper())).ToList(); break;
-                        case 2: landmarkViews = landmarkViews.Where(x => x.Name.Contains(search.ToUpper())).ToList(); break;
-                        case 7: landmarkViews = landmarkViews.Where(x => x.City.ToString().Contains(search.ToUpper())).ToList(); break;
+                        case 1: landmarkViews = landmarkViews.Where(x => x.Id.ToString().Contains(search.ToLower())).ToList(); break;
+                        case 2: landmarkViews = landmarkViews.Where(x => x.Name.ToLower().Contains(search.ToLower())).ToList(); break;
+                        case 3: landmarkViews = landmarkViews.Where(x => x.City.ToString().Contains(search.ToLower())).ToList(); break;
                         default: break;
                     }
                 }
@@ -210,7 +207,7 @@ namespace Coders.Controllers
             }
             else
             {
-                landmarkViews = DLLandmarks.Data.ReturnLandmark(skip, pageSize);
+                landmarkViews = DLLandmarks.Data.ReturnLandmarks(skip, pageSize);
             }
 
             if (!string.IsNullOrEmpty(sortDir))
@@ -219,9 +216,9 @@ namespace Coders.Controllers
                 {
                     switch (int.Parse(sortColumn))
                     {
-                        case 0: landmarkViews = landmarkViews.OrderByDescending(x => x.Id).ToList(); break;
-                        case 1: landmarkViews = landmarkViews.OrderByDescending(x => x.Name).ToList(); break;
-                        case 2: landmarkViews = landmarkViews.OrderByDescending(x => x.City).ToList(); break;
+                        case 1: landmarkViews = landmarkViews.OrderByDescending(x => x.Id).ToList(); break;
+                        case 2: landmarkViews = landmarkViews.OrderByDescending(x => x.Name).ToList(); break;
+                        case 3: landmarkViews = landmarkViews.OrderByDescending(x => x.City).ToList(); break;
                         default: break;
                     }
                 }
@@ -229,9 +226,9 @@ namespace Coders.Controllers
                 {
                     switch (int.Parse(sortColumn))
                     {
-                        case 0: landmarkViews = landmarkViews.OrderBy(x => x.Id).ToList(); break;
-                        case 1: landmarkViews = landmarkViews.OrderBy(x => x.Name).ToList(); break;
-                        case 2: landmarkViews = landmarkViews.OrderBy(x => x.City).ToList(); break;
+                        case 1: landmarkViews = landmarkViews.OrderBy(x => x.Id).ToList(); break;
+                        case 2: landmarkViews = landmarkViews.OrderBy(x => x.Name).ToList(); break;
+                        case 3: landmarkViews = landmarkViews.OrderBy(x => x.City).ToList(); break;
 
                         default: break;
                     }
@@ -241,5 +238,52 @@ namespace Coders.Controllers
             return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = landmarkViews }, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult FilterUsers(int filter)
+        {
+            userFilter = filter;
+            return Json(new { data = true });
+        }
+
+        public JsonResult FilterCompetitions(int filter)
+        {
+            competitionFilter = filter;
+            return Json(new { data = true });
+        }
+
+        public JsonResult FilterLandmarks(int filter)
+        {
+            landmarkFilter = filter;
+            return Json(new { data = true });
+        }
+
+        public JsonResult DeleteUser(int id)
+        {
+            DLUser.Data.DeleteUser(id);
+            return Json(true);
+        }
+
+        public JsonResult DeleteCompetition(int id)
+        {
+            DLCompetition.Data.DeleteCompetition(id);
+            return Json(true);
+        }
+
+        public JsonResult DeleteLandmark(int id)
+        {
+            DLLandmarks.Data.DeleteLandmark(id);
+            return Json(true);
+        }
+
+        public JsonResult ChangeCompetition(CompetitionView competitionModal)
+        {
+            DLCompetition.Data.ChangeCompetition(competitionModal);
+            return Json(true);
+        }
+
+        public JsonResult ChangeLandmark(LandmarkView landmarknModal)
+        {
+            DLLandmarks.Data.ChangeLandmark(landmarknModal);
+            return Json(true);
+        }
     }
 }
