@@ -1,0 +1,751 @@
+﻿function DrawDropdownUsers() {
+    $('<div class="form-group" id="dropdownUsersTable"></div>').appendTo('#addUsers');
+    //$('<div class="form-group"> <label id="labelFilter"/>').text('Filter:').appendTo('#dropdownInvoice')
+    $select = $('<select id="selectUserstable" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownUsersTable');
+    $('<option/>').val('0').text('Select filter..').appendTo($select);
+    $('<option/>').val('1').text('Name').appendTo($select);
+    $('<option/>').val('2').text('Surname').appendTo($select);
+    $('<option/>').val('3').text('Username').appendTo($select);
+    $('<option/>').val('4').text('E-mail').appendTo($select);
+}
+
+function DrawDropdownCompetitions() {
+    $('<div class="form-group" id="dropdownCompetitionsTable"></div>').appendTo('#addCompetitions');
+    //$('<div class="form-group"> <label id="labelFilter"/>').text('Filter:').appendTo('#dropdownInvoice')
+    $select = $('<select id="selectCompetitionsTable" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownCompetitionsTable');
+    $('<option/>').val('0').text('Select filter..').appendTo($select);
+    $('<option/>').val('1').text('Number').appendTo($select);
+    $('<option/>').val('2').text('Name').appendTo($select);
+    $('<option/>').val('3').text('Starting date').appendTo($select);
+    $('<option/>').val('4').text('Ending date').appendTo($select);
+    $('<option/>').val('5').text('Type').appendTo($select);
+    $('<option/>').val('6').text('Citye').appendTo($select);
+    $('<option/>').val('7').text('No of landmark').appendTo($select);
+}
+
+function DrawDropdownLandmarks() {
+    $('<div class="form-group" id="dropdownLandmarksTable"></div>').appendTo('#addLandmarks');
+    //$('<div class="form-group"> <label id="labelFilter"/>').text('Filter:').appendTo('#dropdownInvoice')
+    $select = $('<select id="selectLandmarksTable" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownLandmarksTable');
+    $('<option/>').val('0').text('Select filter..').appendTo($select);
+    $('<option/>').val('1').text('Number').appendTo($select);
+    $('<option/>').val('2').text('Name').appendTo($select);
+    $('<option/>').val('3').text('City').appendTo($select);
+}
+
+function CloseModal() {
+    $('#AdminModalDetails').modal('hide');
+}
+
+function DeleteUser(button) {
+    var rowCompetition = $(button).parents('tr')[0];
+    var data = $('#tableUsers').DataTable().row(rowCompetition).data();
+    var id = data.Id;
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+    modalBody.append("<p>Are you sure you want to delete this user?</p>");
+    var modalFooter = $("#modalEdit");
+    modalFooter.empty();
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>No</button>");
+    popUpBody.modal("show");
+    modalFooter.append("<button value=" + id + " onclick='DeleteUserYes(this)' class='btn btn-danger'>Yes</button>");
+}
+
+function DeleteUserYes(button) {
+    var id = button.value;
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { "id": id },
+        url: "/Admin/DeleteUser",
+        chache: false,
+        success: function (data) {
+            var modalHeader = $('#headerModal');
+            modalHeader.empty();
+            var popUpBody = $('#AdminModalDetails');
+            var modalBody = $("#editDetails");
+            modalBody.empty();
+            modalBody.append("<p>User deleted! </p>");
+            var modalFooter = $("#modalEdit");
+            modalFooter.empty();
+            modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>OK</button>");
+            popUpBody.modal("show");
+            $('#tableUsers').DataTable().ajax.reload().draw();
+        }
+    });
+}
+
+function DeleteCompetition(button, event) {
+    event.stopPropagation();
+    var rowCompetition = $(button).parents('tr')[0];
+    var data = $('#tableCompetitions').DataTable().row(rowCompetition).data();
+    var id = data.Id;
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+    modalBody.append("<p>Are you sure you want to delete this competition?</p>");
+    var modalFooter = $("#modalEdit");
+    modalFooter.empty();
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>No</button>");
+    popUpBody.modal("show");
+    modalFooter.append("<button value=" + id + " onclick='DeleteCompetitionYes(this)' class='btn btn-danger'>Yes</button>");
+    event.preventDefault();
+}
+
+function DeleteCompetitionYes(button) {
+    var id = button.value;
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { "id": id },
+        url: "/Admin/DeleteCompetition",
+        chache: false,
+        success: function (data) {
+            $('#AdminModalDetails').modal('hide');
+            $('#tableCompetitions').DataTable().ajax.reload().draw();
+        }
+    });
+}
+
+function DeleteLandmark(button, event) {
+    event.stopPropagation();
+    var rowCompetition = $(button).parents('tr')[0];
+    var data = $('#tableLandmarks').DataTable().row(rowCompetition).data();
+    var id = data.Id;
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+    modalBody.append("<p>Are you sure you want to delete this landmark?</p>");
+    var modalFooter = $("#modalEdit");
+    modalFooter.empty();
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>No</button>");
+    popUpBody.modal("show");
+    modalFooter.append("<button value=" + id + " onclick='DeleteLandmarkYes(this)' class='btn btn-danger'>Yes</button>");
+}
+
+function DeleteLandmarkYes(button) {
+    var id = button.value;
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { "id": id },
+        url: "/Admin/DeleteLandmark",
+        chache: false,
+        success: function (data) {
+            $('#AdminModalDetails').modal('hide');
+            $('#tableLandmarks').DataTable().ajax.reload().draw();
+        }
+    });
+}
+
+function ChangeCompetition(button, event) {
+    event.stopPropagation();
+    var rowCompetition = $(button).parents('tr')[0];
+    var data = $('#tableCompetitions').DataTable().row(rowCompetition).data();
+    var id = data.Id;
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    modalHeader.append("Change competition");
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+
+    $("<div class='form-group' id='DivNumber'></div>").appendTo(modalBody);
+    $('#DivNumber').append("<label class='col-md-5'>Number: </label>");
+    $('#DivNumber').append("<input class='col-md-6' type='text' id='Id' disabled /><br />");
+    $('#Id').val(data.Id);
+
+    $("<div class='form-group' id='DivName'></div>").appendTo(modalBody);
+    $('#DivName').append("<label class='col-md-5'>Name: </label>");
+    $('#DivName').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='Name'/><br />");
+    $('#Name').val(data.Name);
+
+    $("<div class='form-group' id='DivStartDate'></div>").appendTo(modalBody);
+    $('#DivStartDate').append("<label class='col-md-5'>Starting date: </label>");
+    $('#DivStartDate').append("<input class='col-md-6' type='date' id='StartingDate'/><br />");
+    $('#StartingDate')[0].value = data.StartingDate;
+
+    $("<div class='form-group' id='DivEndDate'></div>").appendTo(modalBody);
+    $('#DivEndDate').append("<label class='col-md-5'>Ending date: </label>");
+    $('#DivEndDate').append("<input type='date' class='col-md-6' id='EndingDate' /><br />");
+    $('#EndingDate')[0].value = data.EndingDate;
+
+    $("<div class='form-group' id='DivType'></div>").appendTo(modalBody);
+    $('#DivType').append("<label class='col-md-5'>Type: </label>");
+    $('<div class="form-group col-md-6" id="dropdownTypes"></div>').appendTo('#DivType');
+    $select = $('<select id="selectTypes" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownTypes');
+    $('<option/>').val('0').text('Select type..').appendTo($select);
+    $('<option/>').val('1').text('All').appendTo($select);
+    $('<option/>').val('2').text('Museums').appendTo($select);
+    $('<option/>').val('3').text('Sights').appendTo($select);
+    $('<option/>').val('4').text('Taverns').appendTo($select);
+    $('<option/>').val('5').text('Clubs').appendTo($select);
+    $('<option/>').val('6').text('Pubs').appendTo($select);
+    $('#selectTypes')[0].selectedIndex = data.Type;
+
+    $("<div class='form-group' id='DivCity'></div>").appendTo(modalBody);
+    $('#DivCity').append("<label class='col-md-5'>City: </label>");
+    $('<div class="form-group col-md-6" id="dropdownCities"></div>').appendTo('#DivCity');
+    $select = $('<select id="selectCities" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownCities');
+    $('<option/>').val('0').text('Select city..').appendTo($select);
+    $('<option/>').val('1').text('Nis').appendTo($select);
+    $('<option/>').val('2').text('Beograd').appendTo($select);
+    $('<option/>').val('3').text('London').appendTo($select);
+    $('#selectCities')[0].selectedIndex = data.Type;
+
+    $("<div class='form-group' id='DivNoLand'></div>").appendTo(modalBody);
+    $('#DivNoLand').append("<label class='col-md-5'>Landmarks: </label>");
+    $('#DivNoLand').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='LandmarkCount'/><br />");
+    $('#LandmarkCount').val(data.LandmarkCount);
+
+    var modalFooter = $("#modalEdit");
+    modalFooter.empty();
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>Close</button>");
+    modalFooter.append("<button value=" + id + " onclick='ChangeCompetitionYes(this)' class='btn btn-danger'>Change </button>");
+    popUpBody.modal("show");
+}
+
+function ChangeCompetitionYes(button) {
+    var id = button.value;
+    var name = $('#Name').val();
+    var startdate = $('#StartingDate').val();
+    var enddate = $('#EndingDate').val();
+    var type = $('#selectTypes')[0].selectedIndex;
+    var landmarkcount = $('#LandmarkCount').val();
+    var city = $('#selectCities')[0].selectedIndex;
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { "id": id, "name": name, "startdate": startdate, "enddate": enddate, "city": city, "landmarkcount": landmarkcount, "type": type },
+        url: "/Admin/ChangeCompetition",
+        chache: false,
+        success: function (data) {
+            $('#AdminModalDetails').modal('hide');
+            $('#tableCompetitions').DataTable().ajax.reload().draw();
+        }
+    });
+}
+
+function ChangeLandmark(button, event) {
+    event.stopPropagation();
+    var rowlandmark = $(button).parents('tr')[0];
+    var data = $('#tableLandmarks').DataTable().row(rowlandmark).data();
+    var id = data.Id;
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    modalHeader.append("Change landmark");
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+
+    $("<div class='form-group' id='DivNumberL'></div>").appendTo(modalBody);
+    $('#DivNumberL').append("<label class='col-md-5'>Number: </label>");
+    $('#DivNumberL').append("<input class='col-md-6' type='text' id='IdL' disabled /><br />");
+    $('#IdL').val(data.Id);
+
+    $("<div class='form-group' id='DivImage'></div>").appendTo(modalBody);
+    $('#DivImage').append("<img style='width:100ph; height:100px;' src='" + ServerAddres + "Images/" + data.FilePathLandmark + "'>");
+
+    $("<div class='form-group' id='DivNameL'></div>").appendTo(modalBody);
+    $('#DivNameL').append("<label class='col-md-5'>Name: </label>");
+    $('#DivNameL').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='NameL'/><br />");
+    $('#NameL').val(data.Name);
+   
+    $("<div class='form-group' id='DivCity'></div>").appendTo(modalBody);
+    $('#DivCity').append("<label class='col-md-5'>City: </label>");
+    $('<div class="form-group col-md-6" id="dropdownCities"></div>').appendTo('#DivCity');
+    $select = $('<select id="selectCities" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownCities');
+    $('<option/>').val('0').text('Select city..').appendTo($select);
+    $('<option/>').val('1').text('Nis').appendTo($select);
+    $('<option/>').val('2').text('Beograd').appendTo($select);
+    $('<option/>').val('3').text('London').appendTo($select);
+    $('#selectCities')[0].selectedIndex = data.City;
+
+    var modalFooter = $('#modalEdit');
+    modalFooter.empty();
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>Close</button>");
+    modalFooter.append("<button value=" + id + " onclick='ChangeLandmarkYes(this)' class='btn btn-danger'> Change</button>");
+    popUpBody.modal("show");
+}
+
+function ChangeLandmarkYes(button) {
+    var id = button.value;
+    var city = $('#selectCities')[0].selectedIndex
+    var name = $('#NameL').val();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { "id": id, "city" : city, "name" : name },
+        url: "/Admin/ChangeLandmark",
+        chache: false,
+        success: function (data) {
+            $('#AdminModalDetails').modal('hide');
+            $('#tableLandmarks').DataTable().ajax.reload().draw();
+        }
+    });
+}
+
+function DetailsUser(data) {
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    modalHeader.append("User details");
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+
+    $("<div class='form-group' id='DivImage'></div>").appendTo(modalBody);
+    $('#DivImage').append("<img src='../Images/" + data.FilePath + "'>");
+
+    $("<div col-md-6' style='float:left' id='left'></div>").appendTo(modalBody);
+    $("<div col-md-6' style='float:right' id='right'></div>").appendTo(modalBody);
+
+    $("<div class='form-group' id='DivNumber'></div>").appendTo($('#left'));
+    $('#DivNumber').append("<label class='col-md-5'>Number: </label>");
+    $('#DivNumber').append("<input class='col-md-6' type='text' id='Id' disabled /><br />");
+    $('#Id').val(data.Id);
+
+    $("<div class='form-group' id='DivName'></div>").appendTo($('#left'));
+    $('#DivName').append("<label class='col-md-5'>Name: </label>");
+    $('#DivName').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='Name' disabled /><br />");
+    $('#Name').val(data.Named);
+
+    $("<div class='form-group' id='DivSurname'></div>").appendTo($('#left'));
+    $('#DivSurname').append("<label class='col-md-5'>Surname: </label>");
+    $('#DivSurname').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='Surname' disabled /><br />");
+    $('#Surname').val(data.Surname);
+
+    $("<div class='form-group' id='DivUsername'></div>").appendTo($('#right'));
+    $('#DivUsername').append("<label class='col-md-5'>Username: </label>");
+    $('#DivUsername').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input type='text' class='col-md-6 form-control' id='Username' disabled /><br />");
+    $('#Username').val(data.Username);
+
+    $("<div class='form-group' id='DivPassword'></div>").appendTo($('#right'));
+    $('#DivPassword').append("<label class='col-md-5'>Password: </label>");
+    $('#DivPassword').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='Password' disabled /><br />");
+    $('#Password').val(data.Password);
+
+    $("<div class='form-group' id='DivEmail'></div>").appendTo($('#left'));
+    $('#DivEmail').append("<label class='col-md-5'>E-mail: </label>");
+    $('#DivEmail').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='Email' disabled /><br />");
+    $('#Email').val(data.Email);
+
+    var modalFooter = $("#modalEdit");
+    modalFooter.empty();
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>OK</button>");
+    popUpBody.modal("show");
+}
+
+function DetailsCompetition(data) {
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    modalHeader.append("Competition details");
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+
+    $("<div class='form-group' id='DivNumber'></div>").appendTo(modalBody);
+    $('#DivNumber').append("<label class='col-md-5'>Number: </label>");
+    $('#DivNumber').append("<input class='col-md-6' type='text' id='Id' disabled /><br />");
+    $('#Id').val(data.Id);
+
+    $("<div class='form-group' id='DivName'></div>").appendTo(modalBody);
+    $('#DivName').append("<label class='col-md-5'>Name: </label>");
+    $('#DivName').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='Name' disabled /><br />");
+    $('#Name').val(data.Name);
+
+    $("<div class='form-group' id='DivStartDate'></div>").appendTo(modalBody);
+    $('#DivStartDate').append("<label class='col-md-5'>Starting date: </label>");
+    $('#DivStartDate').append("<input class='col-md-6' type='date' id='StartingDate' disabled /><br />");
+    $('#StartingDate').val(data.StartingDate);
+
+    $("<div class='form-group' id='DivEndDate'></div>").appendTo(modalBody);
+    $('#DivEndDate').append("<label class='col-md-5'>Ending date: </label>");
+    $('#DivEndDate').append("<input type='date' class='col-md-6' id='EndingDate' disabled /><br />");
+    $('#EndingDate').val(data.EndingDate);
+
+    $("<div id='DivType'></div>").appendTo(modalBody);
+    $('#DivType').append("<label class='col-md-5'>Type: </label>");
+
+    $('<div class="form-group col-md-6" id="dropdownTypes"></div>').appendTo('#DivType');
+    $select = $('<select id="selectTypes" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownTypes');
+    $('<option/>').val('0').text('Select type..').appendTo($select);
+    $('<option/>').val('1').text('All').appendTo($select);
+    $('<option/>').val('2').text('Museums').appendTo($select);
+    $('<option/>').val('3').text('Sights').appendTo($select);
+    $('<option/>').val('4').text('Taverns').appendTo($select);
+    $('<option/>').val('5').text('Clubs').appendTo($select);
+    $('<option/>').val('6').text('Pubs').appendTo($select);
+    $('#selectTypes')[0].selectedIndex = data.Type;
+
+    $("<div class='form-group' id='DivCity'></div>").appendTo(modalBody);
+    $('#DivCity').append("<label class='col-md-5'>City: </label>");
+    $('<div class="form-group form-control" id="dropdownCities"></div>').appendTo('#DivCity');
+    $select = $('<select id="selectCities" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownCities');
+    $('<option/>').val('0').text('Select city..').appendTo($select);
+    $('<option/>').val('1').text('Nis').appendTo($select);
+    $('<option/>').val('2').text('Beograd').appendTo($select);
+    $('<option/>').val('3').text('London').appendTo($select);
+    $('#selectCities')[0].selectedIndex = data.City;
+
+    $("<div class='form-group' id='DivNoLand'></div>").appendTo($('#right'));
+    $('#DivNoLand').append("<label class='col-md-5'>Landmarks: </label>");
+    $('#DivNoLand').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='LandmarkCount' disabled /><br />");
+    $('#LandmarkCount').val(data.LandmarkCount);
+
+    var modalFooter = $("#modalEdit");
+    modalFooter.empty();
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>OK</button>");
+    popUpBody.modal("show");
+}
+
+function DetailsLandmark(data) {
+
+    var modalBody = $("#divHints");
+    $('#DivHintsDetails').remove();
+    $("<div class='form-group' id='DivHintsDetails'></div>").appendTo(modalBody);
+    $("<div class='form-group' id='DivImage'></div>").appendTo($('#DivHintsDetails'));
+    $('#DivImage').append("<img style='width:100ph; height:100px;' src='" + ServerAddres + "Images/" + data.FilePathLandmark + "'>");
+
+    $("<div class='form-group' id='DivNumberL'></div>").appendTo($('#DivHintsDetails'));
+    $('#DivNumberL').append("<label class='col-md-2'>Number: </label>");
+    $('#DivNumberL').append("<input class='col-md-3' type='text' id='IdL' disabled /><br />");
+    $('#IdL').val(data.Id);
+
+    $("<div class='form-group' id='DivNameL'></div>").appendTo($('#DivHintsDetails'));
+    $('#DivNameL').append("<label class='col-md-2'>Name: </label>");
+    $('#DivNameL').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-3 form-control' type='text' id='NameL' disabled /><br />");
+    $('#NameL').val(data.Name);
+
+    $("<div class='form-group' id='DivCity'></div>").appendTo($('#DivHintsDetails'));
+    $('#DivCity').append("<label class='col-md-2'>City: </label>");
+    $('<div class="form-group col-md-3" id="dropdownCities"></div>').appendTo('#DivCity');
+    $select = $('<select id="selectCities" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownCities');
+    $('<option/>').val('0').text('Select city..').appendTo($select);
+    $('<option/>').val('1').text('Nis').appendTo($select);
+    $('<option/>').val('2').text('Beograd').appendTo($select);
+    $('<option/>').val('3').text('London').appendTo($select);
+    $('#selectCities')[0].selectedIndex = data.City;
+
+    $("<div class='form-group' id='DivHintsL'></div>").appendTo($('#DivHintsDetails'));
+    $('#DivHintsL').append("<button type='button' value = " + data.Id + " onclick='AddHint(this)' class='btn btn-default'>Add hint</button><br />");
+    $('#DivHintsL').append("<button onclick='CloseDetailsLandmark()' class='btn btn-default'>Close</button>");
+}
+
+function CloseDetailsLandmark() {
+    $('#DivHintsDetails').remove();
+}
+
+function ShowAddHint() {
+    $("<div class='form-group' id='DivDescriptionH'></div>").appendTo($('#right'));
+    $('#DivDescriptionH').append("<label class='col-md-5'>Description: </label>");
+    $('#DivDescriptionH').append("<input class='col-md-6 form-control' type='text' id='DescriptionH'/><br />");
+    $('#DescriptionH').val(null);
+
+    $("<div class='form-group' id='DivAnswerH'></div>").appendTo($('#right'));
+    $('#DivAnswerH').append("<label class='col-md-5'>Answer: </label>");
+    $('#DivAnswerH').append("<input class='col-md-6 corm-control' type='text' id='AnswerH'/><br />");
+    $('#AnswerH').val(null);
+
+    $('#right').append("<div class='col-md-2'></div><div class='col-md-2'><button onclick='CloseModal()' class='btn btn-default'>Close</button></div>");
+    $('#right').append("<div class='col-md-2'></div><div class='col-md-2'><button onclick='AddHintkYes(this)' class='btn btn-danger'> Save</button></div>");
+}
+
+function ChangeHint(button) {
+    var rowHints = $(button).parents('tr')[0];
+    var data = $('#tableHints').DataTable().row(rowHints).data();
+    var id = data.Id;
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    modalHeader.append("Change hint");
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+
+    $("<div class='form-group' id='DivNumberH'></div>").appendTo(modalBody);
+    $('#DivNumberH').append("<label class='col-md-5'>Number: </label>");
+    $('#DivNumberH').append("<input class='col-md-6 form-control' type='text' id='IdH' disabled /><br />");
+    $('#IdH').val(data.Id);
+
+    $("<div class='form-group' id='DivDescriptionH'></div>").appendTo(modalBody);
+    $('#DivDescriptionH').append("<label class='col-md-5'>Description: </label>");
+    $('#DivDescriptionH').append("<input class='col-md-6 form-control' type='text' id='DescriptionH'/><br />");
+    $('#DescriptionH').val(data.Description);
+
+    $("<div class='form-group' id='DivAnswerH'></div>").appendTo(modalBody);
+    $('#DivAnswerH').append("<label class='col-md-5'>City: </label>");
+    $('#DivAnswerH').append("<input class='col-md-6 form-control' type='text' id='AnswerH'/><br />");
+    $('#AnswerH').val(data.Answer);
+
+    var modalFooter = $('#modalEdit');
+    modalFooter.empty();
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>Close</button>");
+    modalFooter.append("<button value=" + id + " onclick='ChangeHintkYes(this)' class='btn btn-danger'> Change</button>");
+    popUpBody.modal("show");
+}
+
+function ChangeHintkYes(button) {
+    var id = button.value;
+    var description = $('#DescriptionH').val();
+    var answer = $('#AnswerH').val();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { "id": id, "description": description, "answer": answer },
+        url: "/Admin/ChangeHint",
+        chache: false,
+        success: function (data) {
+            $('#AdminModalDetails').modal('hide');
+            $('#tableHints').DataTable().ajax.reload().draw();
+        }
+    });
+}
+
+function DeleteHint(button) {
+    var rowCompetition = $(button).parents('tr')[0];
+    var data = $('#tableHints').DataTable().row(rowCompetition).data();
+    var id = data.Id;
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+    modalBody.append("<p>Are you sure you want to delete this hint?</p>");
+    var modalFooter = $("#modalEdit");
+    modalFooter.empty();
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>No</button>");
+    popUpBody.modal("show");
+    modalFooter.append("<button value=" + id + " onclick='DeleteHintYes(this)' class='btn btn-danger'>Yes</button>");
+}
+
+function DeleteHintYes(button) {
+    var id = button.value;
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { "id": id },
+        url: "/Admin/DeleteHint",
+        chache: false,
+        success: function (data) {
+            $('#AdminModalDetails').modal('hide');
+            $('#tableHints').DataTable().ajax.reload().draw();
+        }
+    });
+}
+
+function AddCompetition() {
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    modalHeader.append("Add competition");
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+
+    $("<div class='form-group' id='DivName'></div>").appendTo(modalBody);
+    $('#DivName').append("<label class='col-md-5'>Name: </label>");
+    $('#DivName').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='Name'/><br />");
+    $('#Name').val(null);
+
+    $("<div class='form-group' id='DivStartDate'></div>").appendTo(modalBody);
+    $('#DivStartDate').append("<label class='col-md-5'>Starting date: </label>");
+    $('#DivStartDate').append("<input class='col-md-6' type='date' id='StartingDate'/><br />");
+    $('#StartingDate').val(null);
+
+    $("<div class='form-group' id='DivEndDate'></div>").appendTo(modalBody);
+    $('#DivEndDate').append("<label class='col-md-5'>Ending date: </label>");
+    $('#DivEndDate').append("<input type='date' class='col-md-6' id='EndingDate' /><br />");
+    $('#EndingDate').val(null);
+
+    $("<div id='DivType'></div>").appendTo(modalBody);
+    $('#DivType').append("<label class='col-md-5'>Type: </label>");
+
+    $('<div class="form-group col-md-6" id="dropdownTypes"></div>').appendTo('#DivType');
+    $select = $('<select id="selectTypes" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownTypes');
+    $('<option/>').val('0').text('Select type..').appendTo($select);
+    $('<option/>').val('1').text('All').appendTo($select);
+    $('<option/>').val('2').text('Museums').appendTo($select);
+    $('<option/>').val('3').text('Sights').appendTo($select);
+    $('<option/>').val('4').text('Taverns').appendTo($select);
+    $('<option/>').val('5').text('Clubs').appendTo($select);
+    $('<option/>').val('6').text('Pubs').appendTo($select);
+
+    $("<div class='form-group' id='DivCity'></div>").appendTo(modalBody);
+    $('#DivCity').append("<label class='col-md-5'>City: </label>");
+    $('<div class="form-group col-md-6" id="dropdownCities"></div>').appendTo('#DivCity');
+    $select = $('<select id="selectCities" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownCities');
+    $('<option/>').val('0').text('Select city..').appendTo($select);
+    $('<option/>').val('1').text('Nis').appendTo($select);
+    $('<option/>').val('2').text('Beograd').appendTo($select);
+    $('<option/>').val('3').text('London').appendTo($select);
+
+    $("<div class='form-group' id='DivNoLand'></div>").appendTo(modalBody);
+    $('#DivNoLand').append("<label class='col-md-5'>Landmarks: </label>");
+    $('#DivNoLand').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='LandmarkCount'/><br />");
+    $('#LandmarkCount').val(null);
+
+    var modalFooter = $("#modalEdit");
+    modalFooter.empty();
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>Close</button>");
+    modalFooter.append("<button onclick='AddCompetitionYes()' class='btn btn-danger'> Save</button>");
+    popUpBody.modal("show");
+}
+
+function AddCompetitionYes(button) {
+    var name = $('#Name').val();
+    var startdate = $('#StartingDate').val();
+    var enddate = $('#EndingDate').val();
+    var landmarkcount = button.value;
+    var type = $('#selectTypes')[0].selectedIndex;
+    var city = $('#selectCities')[0].selectedIndex;
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { "name": name, "startdate": startdate, "enddate": enddate, "city": city, "landmarkcount": landmarkcount, "type": type },
+        url: "/Admin/AddCompetition",
+        chache: false,
+        success: function (data) {
+            $('#AdminModalDetails').modal('hide');
+            $('#tableCompetitions').DataTable().ajax.reload().draw();
+        }
+    });
+}
+
+function AddLandmark() {
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    modalHeader.append("Add landmark");
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+
+    $("<div class='form-group' id='DivImageModal'></div>").appendTo(modalBody);
+    $('#DivImageModal').append("<img src=''>");
+
+    $("<div class='form-group' id='DivNameL'></div>").appendTo(modalBody);
+    $('#DivNameL').append("<label class='col-md-5'>Name: </label>");
+    $('#DivNameL').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-user'></i></span><input class='col-md-6 form-control' type='text' id='NameL'/><br />");
+    $('#NameL').val(null);
+
+    $("<div class='form-group' id='DivCity'></div>").appendTo(modalBody);
+    $('#DivCity').append("<label class='col-md-5'>City: </label>");
+    $('<div class="form-group col-md-6" id="dropdownCities"></div>').appendTo('#DivCity');
+    $select = $('<select id="selectCities" style="float:right; margin-left:2%" class="form-control" />').appendTo('#dropdownCities');
+    $('<option/>').val('0').text('Select city..').appendTo($select);
+    $('<option/>').val('1').text('Nis').appendTo($select);
+    $('<option/>').val('2').text('Beograd').appendTo($select);
+    $('<option/>').val('3').text('London').appendTo($select);
+
+    var modalFooter = $('#modalEdit');
+    modalFooter.empty();
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>Close</button>");
+    modalFooter.append("<button onclick='AddLandmarkYes()' class='btn btn-danger'> Save</button>");
+    popUpBody.modal("show");
+}
+
+function AddLandmarkYes() {
+    var city = $('#selectCities')[0].selectedIndex;
+    var name = $('#NameL').val();
+    var filePath = fileData[0].name;
+
+    landmarkModel = new FormData();
+
+    var extension = fileData[0].name.split('.').pop();
+    if (extension == "JPEG" || extension == "jpg" || extension == "jpeg" || extension == "JPG") {
+        landmarkModel.append(fileData[0].name, fileData[0]);
+    }
+    else {
+        fileData = null;
+        var div = $('#DivImageModal');
+        $('#FileLabel').remove();
+        $('#divextension').remove();
+        div.append("<p><div id = 'divextension'> Extension most be type pdf, jpg or png. Your file have extension " + extension + "</div></p>")
+    }
+
+    var formObject = {};
+    formObject["City"] = city;
+    formObject["Name"] = name;
+    formObject["FilePathLandmark"] = filePath;
+
+    for (var key in formObject) {
+        landmarkModel.append(key, formObject[key]);
+    }
+    var landmark = landmarkModel
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: landmark,
+        url: "/Admin/AddLandmark",
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            $('#AdminModalDetails').modal('hide');
+            $('#tableLandmarks').DataTable().ajax.reload().draw();
+        }
+    });
+}
+
+function AddHint(button) {
+    var id = button.value;
+    landmarkId = id;
+    var modalHeader = $('#headerModal');
+    modalHeader.empty();
+    modalHeader.append("Add hint");
+    var popUpBody = $('#AdminModalDetails');
+    var modalBody = $("#editDetails");
+    modalBody.empty();
+
+    $("<div class='form-group' id='DivDescriptionH'></div>").appendTo(modalBody);
+    $('#DivDescriptionH').append("<label class='col-md-5'>Description: </label>");
+    $('#DivDescriptionH').append("<input class='col-md-6' type='text' id='DescriptionH'/><br />");
+    $('#DescriptionH').val(null);
+
+    $("<div class='form-group' id='DivAnswerH'></div>").appendTo(modalBody);
+    $('#DivAnswerH').append("<label class='col-md-5'>Answer: </label>");
+    $('#DivAnswerH').append("<input class='col-md-6' type='text' id='AnswerH'/><br />");
+    $('#AnswerH').val(null);
+
+    var modalFooter = $('#modalEdit');
+    modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'>Close</button>");
+    modalFooter.append("<div class='col-md-1'></div><button value=" + id + " onclick='AddHintYes(this)' class='btn btn-danger'> Save</button>");
+    popUpBody.modal("show");
+}
+
+function AddHintYes(button) {
+    var description = $('#DescriptionH').val();
+    var answer = $('#AnswerH').val();
+    var landmarkId = button.value;
+    var id = landmarkId;
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        data: { "description": description, "answer": answer, "landmarkId": landmarkId },
+        url: "/Admin/AddHint",
+        chache: false,
+        success: function (data) {
+            $('#AdminModalDetails').modal('hide');
+            $('#divHints').show();
+            $('#tableHints').DataTable().ajax.reload().draw();
+        }
+    });
+}
+
+//$('#StartingDate').datetimepicker({
+//    timepicker: false,
+//    format: 'd.m.Y'
+//});
+
+//$('#EndingDate').datetimepicker({
+//    timepicker: false,
+//    format: 'd.m.Y'
+//});
