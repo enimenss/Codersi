@@ -1,0 +1,49 @@
+﻿
+
+<!DOCTYPE html>
+
+@{ 
+    Layout = "~/Views/Shared/Proba.cshtml";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Pass</title>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("Pass", "Forget", FormMethod.Post))
+        {
+        <table style="width:80%;margin:auto">
+            <tr>
+                <td><strong style="background-color:azure">Unesi pass:</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <input class="form-control col-md-3" type="password" name="pass" />
+                </td>
+            </tr>
+            <tr>
+                <td><strong style="background-color:azure">Potvrdi pass:</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <input class="form-control col-md-3" type="password" name="potpass" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-floppy-save"></span> </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="alert-danger">@ViewBag.errorMassage</p>
+                </td>
+            </tr>
+        </table>
+        }
+    </div>
+</body>
+</html>

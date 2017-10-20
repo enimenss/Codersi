@@ -1,0 +1,111 @@
+﻿@model ICollection<Coders.Models.GroupView>
+@{
+    ViewBag.Title = "Groups";
+}
+<style>
+    .dataTables_wrapper {
+        font-size: 9px;
+    }
+
+    .btn {
+        padding: 1px 5px 1px 5px;
+    }
+
+    .table.dataTable thead .sorting {
+        padding: 1px 3px 1px 5px;
+    }
+</style>
+<h2 style="font-size:14px;">Groups</h2>
+<div>
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+
+    <div><button class="btn btn-success" style="color:white;font-size:10px;margin-bottom:5%;margin-top:2%" onclick="NewGroup()"><span class="glyphicon glyphicon-plus"></span> New group</button></div>
+<table id="Groups" class="table inverse table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Count of founds</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var c in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(x => c.Name)</td>
+            <td>@Html.DisplayFor(x => c.CountOfFounds)</td>
+            <td><button class="btn btn-success" style="color:white" onclick="location.href='@Url.Action("Join", "Admin", new { guid = c.Guid })'"><span class="glyphicon glyphicon-ok-sign"></span></button></td>
+        </tr>
+    }
+</table>
+</div>
+
+<div class="modal modal-scroll fade" id="AdminModalDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" style="width:55%" role="document">
+        <div class="modal-content" style="background-color: #5cb85c">
+            <div class="modal-header" id="headerModal"></div>
+            <div class="dropzone" id="dropzone">
+                <div class="modal-body">
+                    <div class="container" id="editDetails">
+                    </div>
+                </div>
+            </div>
+            <div id="modalEdit" class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $('#Groups').DataTable();
+    });
+
+    function NewGroup() {
+        var modalHeader = $('#headerModal');
+        modalHeader.empty();
+        modalHeader.append("New group");
+        var popUpBody = $('#AdminModalDetails');
+        var modalBody = $("#editDetails");
+        modalBody.empty();
+
+        $("<div class='form-group' id='DivName'></div>").appendTo(modalBody);
+        $('#DivName').append("<label class='col-md-3'>Name: </label>");
+        $('#DivName').append("<div class='input-group'><span class='input-group-addon'><i class='glyphicon glyphicon-edit'></i></span><input class='col-md-5 form-control' type='text' id='Name' /><br />");
+        $('#Name').val(null);
+
+        var modalFooter = $('#modalEdit');
+        modalFooter.empty();
+        modalFooter.append("<button onclick='CloseModal()' class='btn btn-default'><span class='glyphicon glyphicon-remove'></span> Close</button>");
+        modalFooter.append("<button onclick='AddGroup()' class='btn btn-danger'><span class='glyphicon glyphicon-save'></span> Save</button>");
+        popUpBody.modal("show");
+    }
+
+    function AddGroup() {
+        var name = $('#Name').val();
+        if (name == "") {
+            $('#DivName').append("<label id = 'LabelWrong' class='col-md-5' style='color:#b94a48; font-size: 13px; font-family: initial;>You have to type name of the group! </label>");
+            return;
+        }
+        else {
+            $('#LabelWrong').remove();
+        }
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/Admin/NewGroup?id=" + name,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#AdminModalDetails').modal('hide');
+                window.open("/Admin/Index");
+            }
+        });
+    }
+
+    function CloseModal() {
+        $('#AdminModalDetails').modal("hide");
+    }
+</script>
+

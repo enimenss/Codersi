@@ -1,0 +1,79 @@
+﻿
+
+@{
+    Layout = null;
+    var ServerAddress = @Request.Url.Scheme + "://" + @Request.Url.Authority + @Request.ApplicationPath.TrimEnd('/');
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body style="background-image: url(@ServerAddress/Images/cover.jpg);background-position: center;background-attachment: fixed;background-size: cover;background-size:100% 100%;background-repear:no-repeat">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h1 style="text-align: center; font-size: 180%; font-family:'MedievalSharp'; color: black;position:center; margin-top: 1px; margin-bottom: 2px; font-weight:bold;color:white ;margin-bottom:0">Login</h1>
+    <div style="padding:3%;text-align:center;background-image: url(@ServerAddress/Images/scroll.png); background-size: 100% 100%;background-repeat: no-repeat; background-origin: content-box;margin-top:0">
+        <div class="form-horizontal" style="margin:10%;position:center;">
+     
+            <div class="form-group">
+                <div class="col-md-12">
+                  
+                    <input type="text" style="width:100%" id="Username" placeholder="Username" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="text" id="Pass" placeholder="Password" class="form-control" />
+                    <div style="float:left">@Html.ActionLink("Forget password", "Index", "Forget") </div>
+                </div>
+            </div>
+    
+            <div class="form-group" style="margin:auto">
+                    <input type="submit" onclick="log()" value="Login" class="btn btn-default" />
+            </div>
+        </div>
+        </div>
+                </div>
+            <div class="col-md-4"></div>
+            </div>
+        </div>
+    
+</body>
+</html>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+<script>
+    var log = function () {
+        var Username = $("#Username").val();
+        var Pass = $("#Pass").val();
+        var ServerAddress = "@Request.Url.Scheme" + "://" + "@Request.Url.Authority" + "@Request.ApplicationPath.TrimEnd('/')" + "/";
+        $.ajax({
+            url: ServerAddress + "RealTime/Log",//add Controler Name,
+            type: "POST",
+            dataType: 'json',
+            data: { "Username": Username, "Pass": Pass },
+            cache: false,
+            success: function (result) {
+                if (result == true) {
+                    window.location.href = window.location.href = ServerAddress + "Home/Chat";
+                }
+                else
+                {
+                    $("#Username").val("");
+                    $("#Pass").val("");
+                }
+            },
+            error: function (err) {
+                alert("Error! Refresh");
+            }
+        });
+    }
+</script>

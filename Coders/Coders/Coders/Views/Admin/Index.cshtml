@@ -1,0 +1,443 @@
+﻿<!DOCTYPE html>
+@model Coders.Models.LandmarkView
+@{
+    ViewBag.Title = "Index";
+}
+@Scripts.Render("~/ScriptForAdmin");
+<head>
+
+    @*<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />*@
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Scripts/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+</head>
+
+<h2>Index</h2>
+<style>
+    .dropzone {
+    }
+        .dropzone.dragover {
+            background-color: #072c10;
+        }
+
+</style>
+<body>
+    <div id="navButtons" style="float:left; width:15%; padding-top:5%">
+        <button class="btn btn-default" id="btnUsers" style="margin-bottom:5%" onclick="ShowUsers()"> Users </button> <br />
+        <button class="btn btn-default" id="btnCompetitions" style="margin-bottom:5%" onclick="ShowCompetitions()"> Competitions </button><br />
+        <button class="btn btn-default" id="btnLandmarks" style="margin-bottom:5%" onclick="ShowLandmarks()"> Landmarks </button><br />
+        <button class="btn btn-default" value="@Request.RequestContext.HttpContext.Session["User"]" id="btnLandmarks" style="margin-bottom:5%" onclick="UserLandmark(this)"> User add Landmarks </button><br />
+    </div>
+    <div id="divUsers" style="float:right; width:75%">
+        <table id="tableUsers" class="table inverse table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Username</th>
+                    <th>E-mail</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div id="divCompetitions" style="float:right; width:85%">
+        <button type="button" onclick="AddCompetition()" style="margin-bottom:2%" class="btn btn-default">Add</button>
+        <table id="tableCompetitions" class="table inverse table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Starting date</th>
+                    <th>Ending date</th>
+                    <th>Type</th>
+                    <th>City</th>
+                    <th>Landmarks</th>
+                    <th>Change</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div id="divLandmarks" style="float:right; width:85%">
+        <button type="button" onclick="AddLandmark()" style="margin-bottom:2%" class="btn btn-default">Add</button><br />
+        <table id="tableLandmarks" class="table inverse table-hover">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>Change</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+        </table>
+        <br />
+    </div>
+
+    <div id="divHints">
+        <br />
+        <table id="tableHints" class="table inverse table-hover">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Description</th>
+                    <th>Answer</th>
+                    <th>Change</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+        </table>
+        <button class="btn btn-default" id="btnHints" style="margin-bottom:5%" onclick="CloseHints()"> Close </button> <br />
+    </div>
+
+    <div class="modal modal-scroll fade" id="AdminModalDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg"  style="width:55%" role="document">
+            <div class="modal-content" style="background-color: #5cb85c">
+                <div class="modal-header" id="headerModal"></div>
+                <div class="dropzone" id="dropzone">
+                    <div class="modal-body">
+                        <div class="container" id="editDetails">
+                        </div>
+                    </div>
+                </div>
+                <div id="modalEdit" class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- Datatables -->
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<!-- Bootstrap -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>*@
+<div id="drawTableUsers">
+    <script type="text/javascript">
+        $('#divUsers').hide();
+        $('#divCompetitions').hide();
+        $('#divLandmarks').hide();
+        $('#divHints').hide();
+
+        var user = 0;
+        var competition = 0;
+        var landmark = 0;
+        var hint = 0;
+        var landmarkId;
+        var ServerAddres= "@Request.Url.Scheme" + "://" + "@Request.Url.Authority" + "@Request.ApplicationPath.TrimEnd('/')" + "/";
+
+        function TableUsers() {
+           var table = $('#tableUsers').DataTable({
+                "processing": true,
+                responsive: true,
+                "serverSide": true,
+                "dom": "l<'#addUsers'>frtip",
+                "aLengthMenu": [[5, 10, 15], [5, 10, 15]],
+                "ajax": {
+                    "url": '@Url.Action("LoadUsers", "Admin")',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    { "data": "Named", "name": "Name", "autoWidth": true },
+                    { "data": "Surname", "name": "Surname", "autoWidth": true },
+                    { "data": "Username", "name": "Username", "autoWidth": true },
+                    { "data": "Email", "name": "E-mail", "autoWidth": true },
+                    {
+                        'render': function (data, type, row)
+                        { return "<button type='button' class='btn btn-success' style='color:white' onclick='DeleteUser(this)'><span class='glyphicon glyphicon-trash'></span> Delete</button>"; }
+                    },
+                ]
+            });
+            DrawDropdownUsers();
+
+            $('#tableUsers tbody').on('click', 'tr', function () {
+                var data = table.row(this).data();
+                DetailsUser(data);
+            });
+
+            if (user == 0) {
+                user = 1;
+            }
+        };
+
+        $('body').on('change', '#selectUserstable', function () {
+            var filter = $(this).val();
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { "filter": filter },
+                url: '@Url.Action("FilterUsers", "Admin")',
+                chache: false,
+                success: function (data) {
+                    $('#tableUsers').DataTable().ajax.reload().draw();
+                }
+            });
+        });
+
+        function ShowUsers() {
+            $('#divHints').hide()
+            if (user == 1) {
+                $('#divUsers').show();
+                $('#divCompetitions').hide();
+                $('#divLandmarks').hide();
+            }
+            else {
+                $('#divUsers').show();
+                $('#divCompetitions').hide();
+                $('#divLandmarks').hide();
+                TableUsers();
+            }
+        };
+
+        function ShowCompetitions() {
+            $('#divHints').hide();
+            if (competition == 1) {
+                $('#divUsers').hide();
+                $('#divCompetitions').show();
+                $('#divLandmarks').hide();
+            }
+            else {
+                $('#divUsers').hide();
+                $('#divCompetitions').show();
+                $('#divLandmarks').hide();
+                TableCompetitions();
+            }
+        };
+
+        function ShowLandmarks() {
+            $('#divHints').hide();
+            if (landmark == 1) {
+                $('#divUsers').hide();
+                $('#divCompetitions').hide();
+                $('#divLandmarks').show();
+        }
+            else {
+                $('#divUsers').hide();
+                $('#divCompetitions').hide();
+                $('#divLandmarks').show();
+
+            TableLandmarks();
+            }
+        };
+
+    </script>
+</div>
+
+<div id="drawTableCompetitions">
+    <script type="text/javascript">
+        function TableCompetitions() {
+            var table = $('#tableCompetitions').DataTable({
+                "processing": true,
+                responsive: true,
+                "serverSide": true,
+                "dom": "l<'#addCompetitions'>frtip",
+                "aLengthMenu": [[5, 10, 15], [5, 10, 15]],
+                "ajax": {
+                    "url": '@Url.Action("LoadCompetitions", "Admin")',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "Name", "name": "Name", "autoWidth": true },
+                    { "data": "StartingDate", "name": "Starting date", "autoWidth": true },
+                    { "data": "EndingDate", "name": "Ending date", "autoWidth": true },
+                    { "data": "Type", "name": "Type", "autoWidth": true },
+                    { "data": "City", "name": "City", "autoWidth": true },
+                    { "data": "LandmarkCount", "name": "Landmarks", "autoWidth": true },
+                    {
+                        'render': function (data, type, row) {
+                            return "<button type='button' class='btn btn-success' style='color:white' onclick='ChangeCompetition(this, event)'><span class='glyphicon glyphicon-edit'></span> Change</button>";
+                        }
+                    },
+                    {
+                        'render': function (data, type, row) {
+                            return "<button type='button' class='btn btn-success' style='color:white' onclick='DeleteCompetition(this, event)'><span class='glyphicon glyphicon-trash'></span> Delete</button>"; }
+                    },
+                ]
+            });
+            if (competition == 0) {
+                competition = 1;
+            }
+            DrawDropdownCompetitions();
+
+            $('#tableCompetitions tbody').on('click', 'tr', function () {
+                var data = table.row(this).data();
+                DetailsCompetition(data);
+            });
+
+        };
+
+        $('body').on('change', '#selectCompetitionsTable', function () {
+             var filter = $(this).val();
+             console.log(filter);
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { "filter": filter },
+                url: '@Url.Action("FilterCompetitions", "Admin")',
+                chache: false,
+                success: function (data) {
+                    $('#tableCompetitions').DataTable().ajax.reload().draw();
+                }
+            });
+        });
+
+    </script>
+</div>
+
+<div id="drawTableLandmarks">
+    <script>
+         function TableLandmarks() {
+            var table = $('#tableLandmarks').DataTable({
+                "processing": true,
+                responsive: true,
+                "serverSide": true,
+                "dom": "l<'#addLandmarks'>frtip",
+                "aLengthMenu": [[5, 10, 15], [5, 10, 15]],
+                "ajax": {
+                    "url": '@Url.Action("LoadLandmarks", "Admin")',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    { "data": "Id", "name": "Number", "autoWidth": true },
+                    { "data": "Name", "name": "Name", "autoWidth": true },
+                    { "data": "City", "name": "City", "autoWidth": true },
+                    {
+                        'render': function (data, type, row) {
+                            return "<button type='button' class='btn btn-success' style='color:white' onclick='ChangeLandmark(this,event)'><span class='glyphicon glyphicon-edit'></span> Change</button>";
+                        }
+                    },
+                    {
+                        'render': function (data, type, row) {
+                            return "<button type='button' class='btn btn-success' style='color:white' onclick='DeleteLandmark(this,event)'><span class='glyphicon glyphicon-trash'></span> Delete</button>"; }
+                    },
+                ]
+             });
+            if (landmark == 0) {
+                landmark = 1;
+            }
+            DrawDropdownLandmarks();
+
+            $('#tableLandmarks tbody').on('click', 'tr', function () {
+                data = table.row(this).data();
+                landmarkId = data.Id;
+                DetailsLandmark(data);
+                if (hint == 1) {
+                    $('#tableHints').DataTable().ajax.reload().draw();
+                }
+                else {
+                    LandmarkHints();
+                }
+                $('#divHints').show();                
+            });
+        };
+
+        $('body').on('change', '#selectLandmarksTable', function () {
+            var filter = $(this).val();
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { "filter": filter },
+                url: '@Url.Action("FilterLandmarks", "Admin")',
+                chache: false,
+                success: function (data) {
+                    $('#tableLandmarks').DataTable().ajax.reload().draw();
+                }
+            });
+        });
+
+        function LandmarkHints()
+        {
+            console.log(landmarkId);
+            $('#divHints').show();
+            var table = $('#tableHints').DataTable({
+                "processing": true,
+                responsive: true,
+                "serverSide": true,
+                "aLengthMenu": [[2, 4, 6], [2, 4, 6]],
+                "ajax": {
+                    "data": function (d) {
+                        d.id = landmarkId;
+                    },
+                    "url": '@Url.Action("LoadHints", "Admin")',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "Id", "name": "Number", "autoWidth": true },
+                    { "data": "Description", "name": "Description", "autoWidth": true },
+                    { "data": "Answer", "name": "Answer", "autoWidth": true },
+                    {
+                        'render': function (data, type, row) {
+                            return "<button type='button' class='btn btn-success' style='color:white' onclick='ChangeHint(this)'><span class='glyphicon glyphicon-edit'></span> Change</button>";
+                        }
+                    },
+                    {
+                        'render': function (data, type, row) {
+                            return "<button type='button' class='btn btn-success' style='color:white' onclick='DeleteHint(this)'><span class='glyphicon glyphicon-trash'></span> Delete</button>"; }
+                    },
+                ]
+            });
+            if (hint == 0) {
+                hint = 1;
+            }
+        }
+
+        function CloseHints() {
+            $('#divHints').hide();
+        }
+
+    </script>
+</div>
+
+<script>
+        var fileData;
+
+     (function () {
+         var dropzone = document.getElementById('dropzone');
+
+        var upload = function (files) {
+            var file = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                if (files[i].name.includes("JPG") || files[i].name.includes("png") || files[i].name.includes("jpg")) {
+                    fileData = files;
+                    var div = $('#DivImageModal');
+                    div.append("<label class='col md-6' id = 'FileLabel'>" + fileData[0].name + "</label>");
+                }
+            }
+        }
+
+        dropzone.ondrop = function (e) {
+            e.preventDefault();
+            this.className = 'dropzone';
+            upload(e.dataTransfer.files)
+        };
+
+        dropzone.ondragover = function () {
+            this.className = 'dropzone dragover';
+            return false;
+        };
+
+        dropzone.ondragleave = function () {
+            this.className = 'dropzone';
+            return false;
+        };
+        })();
+
+     //$('#StartingDate').datetimepicker({
+     //    timepicker: false,
+     //    format: 'd.m.Y'
+     //});
+
+     //$('#EndingDate').datetimepicker({
+     //    timepicker: false,
+     //    format: 'd.m.Y'
+     //});
+</script>

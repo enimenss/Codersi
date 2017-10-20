@@ -1,0 +1,152 @@
+﻿@model PagedList.IPagedList<Coders.ModelViews.NewLandmarksView>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/newsstyle.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
+<link rel="stylesheet" href="~/Content/Zvezdice.css" />
+@{
+    ViewBag.Title = "NewLandmarks";
+    var ServerAddress = @Request.Url.Scheme + "://" + @Request.Url.Authority + @Request.ApplicationPath.TrimEnd('/');
+}
+
+<body id="body" style="background-image: url(@ServerAddress/Images/cover.jpg);background-position: center;background-attachment: fixed;background-size: cover;background-size:100% 100%;background-repear:no-repeat">
+    <div class="container"
+         background-repeat: no-repeat; background-origin: content-box;">
+        <div class="row" style="margin-top: 1%">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+                <h3 style="font-weight:900; font-size: 200%; text-align: center;color:white">
+                    NewLandmarks
+                </h3>
+                <div id="vesti">
+                    @foreach (var news in Model)
+                    {
+                        <div class="news-item" style="background-image: url(@ServerAddress/Images/scroll.png); background-size: 100% 100%;">
+                            <div class="row">
+                                <div>
+                                    <h3 class="news-title" style="font-weight: 600;width:90%">Author:&nbsp;@news.Author</h3>
+                                </div>
+                                <div class="col-md-6" style="padding-left:7%;padding-top: 2%">
+                                    <img alt="Bootstrap Image Preview" src='@ServerAddress/Images/@news.Picture' width="250" height="200" style="border-width: 2px; border-color: black; border-style: solid; border-radius: 5%;" />
+                                    <div style="width:100%;">
+                                        <fieldset class="rating" id="1">
+                                            <span style="float:left;margin-top:2.5%"><strong>Rate:&nbsp;&nbsp;</strong></span>
+                                            <input type='radio' id='star5_@news.Id' name='rating_@news.Id' value='5' onclick="Rate('@news.Id',value)" /> <label class='full' for='star5_@news.Id' title='Awesome - 5 stars'></label>
+                                            <input type='radio' id='star4_@news.Id' name='rating_@news.Id' value='4' onclick="Rate('@news.Id',value)" /> <label class='full' for='star4_@news.Id' title='Pretty good - 4 stars'></label>
+                                            <input type='radio' id='star3_@news.Id' name='rating_@news.Id' value='3' onclick="Rate('@news.Id',value)" /> <label class='full' for='star3_@news.Id' title='Meh - 3 stars'></label>
+                                            <input type='radio' id='star2_@news.Id' name='rating_@news.Id' value='2' onclick="Rate('@news.Id',value)" /> <label class='full' for='star2_@news.Id' title='Kinda bad - 2 stars'></label>
+                                            <input type='radio' id='star1_@news.Id' name='rating_@news.Id' value='1' onclick="Rate('@news.Id',value)" /> <label class='full' for='star1_@news.Id' title='Sucks big time - 1 star'></label>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding-right:7%">
+                                    <p style="width:80%;word-wrap:break-word;margin-left:4%;overflow:hidden;text-overflow:ellipsis;">
+                                        <strong style="font-weight:700;font-size:18px">
+                                            Description:
+                                        </strong>
+                                    </p>
+                                    <p style="width:80%;height:100px;word-wrap:break-word;margin-left: 4%;overflow:hidden;text-overflow:ellipsis">
+                                        @news.Description
+                                    </p><p style="margin-left: 8%;">@news.Date.ToString()</p>
+                                    <div class="news-read-more">
+                                        <button>Read more</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <nav class="news-pagination">
+                    <div class="pagination" style="font-family: 'Rakkas'; color: black; font-weight: 900;">
+                        @Html.PagedListPager(Model, page => Url.Action("News",
+                    new { id = ViewBag.Username, page = page }))
+                    </div>
+                </nav>
+
+
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+   var ServerAddress = "@Request.Url.Scheme" + "://" + "@Request.Url.Authority" + "@Request.ApplicationPath.TrimEnd('/')" + "/";
+    var list =@Html.Raw(Json.Encode(Model) );
+    $.each(list, function (i, ele) {
+        console.log("#star" + ele.Rate + "_" + ele.Id);
+        $("#star" + ele.Rate + "_" + ele.Id).attr("checked", true);
+    })
+
+    var Rate = function (Id, Star) {
+        $.ajax({
+            url: ServerAddress + "Home/Rate",//add Controler Name,
+            type: "POST",
+            dataType: 'json',
+            data: { "Id": Id, "Star": Star },
+            cache: false,
+            success: function (result) {
+                $("#star" + result + "_" + Id).attr("checked", true);
+            },
+            error: function (err) {
+                alert("Error! Refresh");
+            }
+        });
+    }
+</script>
+<script>
+    function swipedetect(el, callback) {
+
+        var touchsurface = el,
+            swipedir,
+            startX,
+            startY,
+            distX,
+            distY,
+            threshold = 50, //required min distance traveled to be considered swipe
+            restraint = 100, // maximum distance allowed at the same time in perpendicular direction
+            allowedTime = 300, // maximum time allowed to travel that distance
+            elapsedTime,
+            startTime,
+            handleswipe = callback || function (swipedir) { }
+
+        touchsurface.addEventListener('touchstart', function (e) {
+            var touchobj = e.changedTouches[0]
+            swipedir = 'none'
+            dist = 0
+            startX = touchobj.pageX
+            startY = touchobj.pageY
+            startTime = new Date().getTime() // record time when finger first makes contact with surface
+        }, false)
+
+        touchsurface.addEventListener('touchmove', function (e) {
+        }, false)
+
+        touchsurface.addEventListener('touchend', function (e) {
+            var touchobj = e.changedTouches[0]
+            distX = touchobj.pageX - startX // get horizontal dist traveled by finger while in contact with surface
+            distY = touchobj.pageY - startY // get vertical dist traveled by finger while in contact with surface
+            elapsedTime = new Date().getTime() - startTime // get time elapsed
+            if (elapsedTime <= allowedTime) { // first condition for awipe met
+                if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) { // 2nd condition for horizontal swipe met
+                    swipedir = (distX < 0) ? 'left' : 'right' // if dist traveled is negative, it indicates left swipe
+                }
+                else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint) { // 2nd condition for vertical swipe met
+                    swipedir = (distY < 0) ? 'up' : 'down' // if dist traveled is negative, it indicates up swipe
+                }
+            }
+            handleswipe(swipedir)
+        }, false)
+    }
+
+    var el = document.getElementById('body')
+    swipedetect(el, function (swipedir) {
+        if (swipedir == 'right')
+            window.location.href = ServerAddress + "Home/Chat";
+
+    })
+
+
+</script>

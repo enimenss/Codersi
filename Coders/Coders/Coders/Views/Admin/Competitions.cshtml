@@ -1,0 +1,58 @@
+﻿@model ICollection <Coders.Models.CompetitionView>
+
+@{
+    ViewBag.Title = "Competitions";
+}
+
+<h2>Competitions</h2>
+<header>
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+</header>
+<style>
+    .dataTables_wrapper {
+        font-size: 9px;
+    }
+
+    .btn {
+        padding: 1px 5px 1px 5px;
+    }
+
+    .table.dataTable thead .sorting {
+        padding: 1px 3px 1px 5px;
+    }
+</style>
+<div>
+    <hr />
+        <table id="Competitions" class="table inverse table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Type</th>
+                    <th>City</th>
+                    <th>Landmarks</th>
+                    <th>Groups</th>
+                </tr>
+            </thead>
+            @foreach(var c in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => c.Name)</td>
+                    <td>@Html.DisplayFor(x=>c.StartingDate)</td>
+                    <td>@Html.DisplayFor(x => c.EndingDate)</td>
+                    <td>@Html.DisplayFor(x => c.Type)</td>
+                    <td>@Html.DisplayFor(x => c.City)</td>
+                    <td>@Html.DisplayFor(x => c.LandmarkCount)</td>
+                    <td><button class="btn btn-success" style="color:white" onclick="location.href='@Url.Action("Groups", "Admin", new { guid = c.Guid })'"><span class="glyphicon glyphicon-folder-open"></span></button></td>
+                </tr>
+            }
+        </table>
+</div>
+
+<script>    
+    $(document).ready(function () {
+        $('#Competitions').DataTable();
+    });
+</script>

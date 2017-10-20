@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CodersModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="CodersEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Competitions" EntityType="CodersModel.Competition" />
+    <EntitySet Name="Groups" EntityType="CodersModel.Group" />
+    <EntitySet Name="Hints" EntityType="CodersModel.Hint" />
+    <EntitySet Name="Landmarks" EntityType="CodersModel.Landmark" />
+    <EntitySet Name="Members" EntityType="CodersModel.Member" />
+    <EntitySet Name="Messages" EntityType="CodersModel.Message" />
+    <EntitySet Name="NewLandmarks" EntityType="CodersModel.NewLandmark" />
+    <EntitySet Name="Participants" EntityType="CodersModel.Participant" />
+    <EntitySet Name="Solutions" EntityType="CodersModel.Solution" />
+    <EntitySet Name="UserRatings" EntityType="CodersModel.UserRating" />
+    <EntitySet Name="Users" EntityType="CodersModel.User" />
+    <AssociationSet Name="FK__Participa__Compe__2D27B809" Association="CodersModel.FK__Participa__Compe__2D27B809">
+      <End Role="Competition" EntitySet="Competitions" />
+      <End Role="Participant" EntitySet="Participants" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Solutions__Compe__4222D4EF" Association="CodersModel.FK__Solutions__Compe__4222D4EF">
+      <End Role="Competition" EntitySet="Competitions" />
+      <End Role="Solution" EntitySet="Solutions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Members__Groups___31EC6D26" Association="CodersModel.FK__Members__Groups___31EC6D26">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="Member" EntitySet="Members" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Messages__Groups__35BCFE0A" Association="CodersModel.FK__Messages__Groups__35BCFE0A">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="Message" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Participa__Group__2E1BDC42" Association="CodersModel.FK__Participa__Group__2E1BDC42">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="Participant" EntitySet="Participants" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hints__Landmark___38996AB5" Association="CodersModel.FK__Hints__Landmark___38996AB5">
+      <End Role="Landmark" EntitySet="Landmarks" />
+      <End Role="Hint" EntitySet="Hints" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Solutions__Landm__4316F928" Association="CodersModel.FK__Solutions__Landm__4316F928">
+      <End Role="Landmark" EntitySet="Landmarks" />
+      <End Role="Solution" EntitySet="Solutions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Solutions__Landm__440B1D61" Association="CodersModel.FK__Solutions__Landm__440B1D61">
+      <End Role="Landmark" EntitySet="Landmarks" />
+      <End Role="Solution" EntitySet="Solutions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Members__Users_I__30F848ED" Association="CodersModel.FK__Members__Users_I__30F848ED">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Member" EntitySet="Members" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Messages__Users___34C8D9D1" Association="CodersModel.FK__Messages__Users___34C8D9D1">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Message" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="FK__NewLandma__UserI__47DBAE45" Association="CodersModel.FK__NewLandma__UserI__47DBAE45">
+      <End Role="User" EntitySet="Users" />
+      <End Role="NewLandmark" EntitySet="NewLandmarks" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserRatin__NewLa__4BAC3F29" Association="CodersModel.FK__UserRatin__NewLa__4BAC3F29">
+      <End Role="NewLandmark" EntitySet="NewLandmarks" />
+      <End Role="UserRating" EntitySet="UserRatings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserRatin__UserI__4CA06362" Association="CodersModel.FK__UserRatin__UserI__4CA06362">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserRating" EntitySet="UserRatings" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Competition">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="StartingDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndingDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Type" Type="Int32" Nullable="false" />
+    <Property Name="LandmarkCount" Type="Int32" />
+    <Property Name="City" Type="Int32" Nullable="false" />
+    <Property Name="Guid" Type="Guid" Nullable="false" />
+    <NavigationProperty Name="Participants" Relationship="CodersModel.FK__Participa__Compe__2D27B809" FromRole="Competition" ToRole="Participant" />
+    <NavigationProperty Name="Solutions" Relationship="CodersModel.FK__Solutions__Compe__4222D4EF" FromRole="Competition" ToRole="Solution" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CountOfFounds" Type="Int32" />
+    <Property Name="Guid" Type="Guid" Nullable="false" />
+    <NavigationProperty Name="Members" Relationship="CodersModel.FK__Members__Groups___31EC6D26" FromRole="Group" ToRole="Member" />
+    <NavigationProperty Name="Messages" Relationship="CodersModel.FK__Messages__Groups__35BCFE0A" FromRole="Group" ToRole="Message" />
+    <NavigationProperty Name="Participants" Relationship="CodersModel.FK__Participa__Group__2E1BDC42" FromRole="Group" ToRole="Participant" />
+  </EntityType>
+  <EntityType Name="Hint">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Answer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Landmark_Id" Type="Int32" />
+    <NavigationProperty Name="Landmark" Relationship="CodersModel.FK__Hints__Landmark___38996AB5" FromRole="Hint" ToRole="Landmark" />
+  </EntityType>
+  <EntityType Name="Landmark">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="Int32" Nullable="false" />
+    <Property Name="FilePathLandmark" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="FilePath" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Location_X" Type="Double" />
+    <Property Name="Location_Y" Type="Double" />
+    <NavigationProperty Name="Hints" Relationship="CodersModel.FK__Hints__Landmark___38996AB5" FromRole="Landmark" ToRole="Hint" />
+    <NavigationProperty Name="Solutions" Relationship="CodersModel.FK__Solutions__Landm__4316F928" FromRole="Landmark" ToRole="Solution" />
+    <NavigationProperty Name="Solutions1" Relationship="CodersModel.FK__Solutions__Landm__440B1D61" FromRole="Landmark" ToRole="Solution" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Users_Id" Type="Int32" />
+    <Property Name="Groups_Id" Type="Int32" />
+    <NavigationProperty Name="Group" Relationship="CodersModel.FK__Members__Groups___31EC6D26" FromRole="Member" ToRole="Group" />
+    <NavigationProperty Name="User" Relationship="CodersModel.FK__Members__Users_I__30F848ED" FromRole="Member" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Message">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Message1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="Users_Id" Type="Int32" />
+    <Property Name="Groups_Id" Type="Int32" />
+    <NavigationProperty Name="Group" Relationship="CodersModel.FK__Messages__Groups__35BCFE0A" FromRole="Message" ToRole="Group" />
+    <NavigationProperty Name="User" Relationship="CodersModel.FK__Messages__Users___34C8D9D1" FromRole="Message" ToRole="User" />
+  </EntityType>
+  <EntityType Name="NewLandmark">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Picture" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="Rate" Type="Int32" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="UserId" Type="Int32" />
+    <NavigationProperty Name="User" Relationship="CodersModel.FK__NewLandma__UserI__47DBAE45" FromRole="NewLandmark" ToRole="User" />
+    <NavigationProperty Name="UserRatings" Relationship="CodersModel.FK__UserRatin__NewLa__4BAC3F29" FromRole="NewLandmark" ToRole="UserRating" />
+  </EntityType>
+  <EntityType Name="Participant">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Competition_Id" Type="Int32" />
+    <Property Name="Groups_Id" Type="Int32" />
+    <NavigationProperty Name="Competition" Relationship="CodersModel.FK__Participa__Compe__2D27B809" FromRole="Participant" ToRole="Competition" />
+    <NavigationProperty Name="Group" Relationship="CodersModel.FK__Participa__Group__2E1BDC42" FromRole="Participant" ToRole="Group" />
+  </EntityType>
+  <EntityType Name="Solution">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fulfilled" Type="Int32" />
+    <Property Name="Competition_Id" Type="Int32" />
+    <Property Name="LandmarkParent_Id" Type="Int32" />
+    <Property Name="LandmarkChild_Id" Type="Int32" />
+    <NavigationProperty Name="Competition" Relationship="CodersModel.FK__Solutions__Compe__4222D4EF" FromRole="Solution" ToRole="Competition" />
+    <NavigationProperty Name="Landmark" Relationship="CodersModel.FK__Solutions__Landm__4316F928" FromRole="Solution" ToRole="Landmark" />
+    <NavigationProperty Name="Landmark1" Relationship="CodersModel.FK__Solutions__Landm__440B1D61" FromRole="Solution" ToRole="Landmark" />
+  </EntityType>
+  <EntityType Name="UserRating">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Rate" Type="Int32" />
+    <Property Name="NewLandmarksId" Type="Int32" />
+    <Property Name="UserId" Type="Int32" />
+    <NavigationProperty Name="NewLandmark" Relationship="CodersModel.FK__UserRatin__NewLa__4BAC3F29" FromRole="UserRating" ToRole="NewLandmark" />
+    <NavigationProperty Name="User" Relationship="CodersModel.FK__UserRatin__UserI__4CA06362" FromRole="UserRating" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Pass" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Named" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Guid" Type="Guid" Nullable="false" />
+    <Property Name="Picture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Location_X" Type="Double" />
+    <Property Name="Location_Y" Type="Double" />
+    <NavigationProperty Name="Members" Relationship="CodersModel.FK__Members__Users_I__30F848ED" FromRole="User" ToRole="Member" />
+    <NavigationProperty Name="Messages" Relationship="CodersModel.FK__Messages__Users___34C8D9D1" FromRole="User" ToRole="Message" />
+    <NavigationProperty Name="NewLandmarks" Relationship="CodersModel.FK__NewLandma__UserI__47DBAE45" FromRole="User" ToRole="NewLandmark" />
+    <NavigationProperty Name="UserRatings" Relationship="CodersModel.FK__UserRatin__UserI__4CA06362" FromRole="User" ToRole="UserRating" />
+  </EntityType>
+  <Association Name="FK__Participa__Compe__2D27B809">
+    <End Type="CodersModel.Competition" Role="Competition" Multiplicity="0..1" />
+    <End Type="CodersModel.Participant" Role="Participant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Competition">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Participant">
+        <PropertyRef Name="Competition_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Solutions__Compe__4222D4EF">
+    <End Type="CodersModel.Competition" Role="Competition" Multiplicity="0..1" />
+    <End Type="CodersModel.Solution" Role="Solution" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Competition">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Solution">
+        <PropertyRef Name="Competition_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Members__Groups___31EC6D26">
+    <End Type="CodersModel.Group" Role="Group" Multiplicity="0..1" />
+    <End Type="CodersModel.Member" Role="Member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Member">
+        <PropertyRef Name="Groups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Messages__Groups__35BCFE0A">
+    <End Type="CodersModel.Group" Role="Group" Multiplicity="0..1" />
+    <End Type="CodersModel.Message" Role="Message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="Groups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Participa__Group__2E1BDC42">
+    <End Type="CodersModel.Group" Role="Group" Multiplicity="0..1" />
+    <End Type="CodersModel.Participant" Role="Participant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Participant">
+        <PropertyRef Name="Groups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hints__Landmark___38996AB5">
+    <End Type="CodersModel.Landmark" Role="Landmark" Multiplicity="0..1" />
+    <End Type="CodersModel.Hint" Role="Hint" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Landmark">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Hint">
+        <PropertyRef Name="Landmark_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Solutions__Landm__4316F928">
+    <End Type="CodersModel.Landmark" Role="Landmark" Multiplicity="0..1" />
+    <End Type="CodersModel.Solution" Role="Solution" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Landmark">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Solution">
+        <PropertyRef Name="LandmarkParent_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Solutions__Landm__440B1D61">
+    <End Type="CodersModel.Landmark" Role="Landmark" Multiplicity="0..1" />
+    <End Type="CodersModel.Solution" Role="Solution" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Landmark">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Solution">
+        <PropertyRef Name="LandmarkChild_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Members__Users_I__30F848ED">
+    <End Type="CodersModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="CodersModel.Member" Role="Member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Member">
+        <PropertyRef Name="Users_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Messages__Users___34C8D9D1">
+    <End Type="CodersModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="CodersModel.Message" Role="Message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="Users_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__NewLandma__UserI__47DBAE45">
+    <End Type="CodersModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="CodersModel.NewLandmark" Role="NewLandmark" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NewLandmark">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserRatin__NewLa__4BAC3F29">
+    <End Type="CodersModel.NewLandmark" Role="NewLandmark" Multiplicity="0..1" />
+    <End Type="CodersModel.UserRating" Role="UserRating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NewLandmark">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserRating">
+        <PropertyRef Name="NewLandmarksId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserRatin__UserI__4CA06362">
+    <End Type="CodersModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="CodersModel.UserRating" Role="UserRating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserRating">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
