@@ -1,46 +1,60 @@
-E:\codersi 2.0\Coders\Coders\obj\Debug\Coders.csprojResolveAssemblyReference.cache
-E:\codersi 2.0\Coders\Coders\obj\Debug\Coders.csproj.CoreCompileInputs.cache
-E:\codersi 2.0\Coders\Coders\bin\ApplicationInsights.config
-E:\codersi 2.0\Coders\Coders\bin\Coders.dll.config
-E:\codersi 2.0\Coders\Coders\bin\Coders.dll
-E:\codersi 2.0\Coders\Coders\bin\Coders.pdb
-E:\codersi 2.0\Coders\Coders\bin\Antlr3.Runtime.dll
-E:\codersi 2.0\Coders\Coders\bin\EntityFramework.dll
-E:\codersi 2.0\Coders\Coders\bin\EntityFramework.SqlServer.dll
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.AI.Agent.Intercept.dll
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.AI.DependencyCollector.dll
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.AI.PerfCounterCollector.dll
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.AI.ServerTelemetryChannel.dll
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.AI.Web.dll
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.AI.WindowsServer.dll
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.ApplicationInsights.dll
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.Web.Infrastructure.dll
-E:\codersi 2.0\Coders\Coders\bin\Newtonsoft.Json.dll
-E:\codersi 2.0\Coders\Coders\bin\System.Web.Helpers.dll
-E:\codersi 2.0\Coders\Coders\bin\System.Web.Mvc.dll
-E:\codersi 2.0\Coders\Coders\bin\System.Web.Optimization.dll
-E:\codersi 2.0\Coders\Coders\bin\System.Web.Razor.dll
-E:\codersi 2.0\Coders\Coders\bin\System.Web.WebPages.Deployment.dll
-E:\codersi 2.0\Coders\Coders\bin\System.Web.WebPages.dll
-E:\codersi 2.0\Coders\Coders\bin\System.Web.WebPages.Razor.dll
-E:\codersi 2.0\Coders\Coders\bin\WebGrease.dll
-E:\codersi 2.0\Coders\Coders\bin\EntityFramework.xml
-E:\codersi 2.0\Coders\Coders\bin\EntityFramework.SqlServer.xml
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-E:\codersi 2.0\Coders\Coders\bin\System.Web.Helpers.xml
-E:\codersi 2.0\Coders\Coders\bin\System.Web.Mvc.xml
-E:\codersi 2.0\Coders\Coders\bin\System.Web.Optimization.xml
-E:\codersi 2.0\Coders\Coders\bin\System.Web.Razor.xml
-E:\codersi 2.0\Coders\Coders\bin\System.Web.WebPages.xml
-E:\codersi 2.0\Coders\Coders\bin\System.Web.WebPages.Deployment.xml
-E:\codersi 2.0\Coders\Coders\bin\System.Web.WebPages.Razor.xml
-E:\codersi 2.0\Coders\Coders\bin\Antlr3.Runtime.pdb
-E:\codersi 2.0\Coders\Coders\bin\Newtonsoft.Json.xml
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.ApplicationInsights.xml
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.AI.DependencyCollector.xml
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.AI.ServerTelemetryChannel.xml
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.AI.WindowsServer.xml
-E:\codersi 2.0\Coders\Coders\bin\Microsoft.AI.Web.xml
-E:\codersi 2.0\Coders\Coders\obj\Debug\Coders.dll
-E:\codersi 2.0\Coders\Coders\obj\Debug\Coders.pdb
+C:\Users\joca\Desktop\Coders\Coders\obj\Debug\Coders.csprojResolveAssemblyReference.cache
+C:\Users\joca\Desktop\Coders\Coders\bin\ApplicationInsights.config
+C:\Users\joca\Desktop\Coders\Coders\bin\Coders.dll.config
+C:\Users\joca\Desktop\Coders\Coders\bin\Coders.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Coders.pdb
+C:\Users\joca\Desktop\Coders\Coders\bin\Antlr3.Runtime.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\EntityFramework.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\EntityFramework.SqlServer.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AI.Web.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.ApplicationInsights.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Newtonsoft.Json.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.Helpers.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.Mvc.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.Optimization.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.Razor.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.WebPages.Deployment.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.WebPages.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.WebPages.Razor.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\WebGrease.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\EntityFramework.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\EntityFramework.SqlServer.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.Helpers.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.Mvc.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.Optimization.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.Razor.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.WebPages.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.WebPages.Deployment.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\System.Web.WebPages.Razor.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\Antlr3.Runtime.pdb
+C:\Users\joca\Desktop\Coders\Coders\bin\Newtonsoft.Json.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.ApplicationInsights.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AI.Web.xml
+C:\Users\joca\Desktop\Coders\Coders\obj\Debug\Coders.dll
+C:\Users\joca\Desktop\Coders\Coders\obj\Debug\Coders.pdb
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.Owin.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.Owin.Security.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Owin.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.Owin.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\Microsoft.Owin.Security.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\PagedList.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\PagedList.Mvc.dll
+C:\Users\joca\Desktop\Coders\Coders\bin\PagedList.xml
+C:\Users\joca\Desktop\Coders\Coders\bin\PagedList.Mvc.xml

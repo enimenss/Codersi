@@ -16,10 +16,12 @@ namespace Coders
     {
         public int Id { get; set; }
         public Nullable<int> Fulfilled { get; set; }
-        public Nullable<int> Groups_Id { get; set; }
-        public Nullable<int> Landmark_Id { get; set; }
+        public Nullable<int> Competition_Id { get; set; }
+        public Nullable<int> LandmarkParent_Id { get; set; }
+        public Nullable<int> LandmarkChild_Id { get; set; }
     
-        public virtual Group Group { get; set; }
+        public virtual Competition Competition { get; set; }
         public virtual Landmark Landmark { get; set; }
+        public virtual Landmark Landmark1 { get; set; }
     }
 }

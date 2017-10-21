@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using static Coders.Enums;
+using static CodersJoca.Enums;
 
-namespace Coders.Models
+namespace CodersJoca.Models
 {
     public class CompetitionView
     {

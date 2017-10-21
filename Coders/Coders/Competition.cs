@@ -18,6 +18,8 @@ namespace Coders
         public Competition()
         {
             this.Participants = new HashSet<Participant>();
+            this.Routs = new HashSet<Rout>();
+            this.Solutions = new HashSet<Solution>();
         }
     
         public int Id { get; set; }
@@ -31,5 +33,9 @@ namespace Coders
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Participant> Participants { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rout> Routs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Solution> Solutions { get; set; }
     }
 }

@@ -1,0 +1,175 @@
+﻿
+
+@{
+    Layout = null;
+    var ServerAddress = @Request.Url.Scheme + "://" + @Request.Url.Authority + @Request.ApplicationPath.TrimEnd('/');
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body style="background-image: url(@ServerAddress/Images/cover.jpg);background-position: center;background-attachment: fixed;background-size: cover;background-size:100% 100%;background-repear:no-repeat">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h1 style="text-align: center; font-size: 180%; font-family:'MedievalSharp'; color: black;position:center; margin-top: 1px; margin-bottom: 2px; font-weight:bold;color:white ;margin-bottom:0" id="LogText">Login</h1>
+    <div style="padding:3%;text-align:center;background-image: url(@ServerAddress/Images/scroll.png); background-size: 100% 100%;background-repeat: no-repeat; background-origin: content-box;margin-top:0">
+        <div id="LogIn" class="form-horizontal" style="margin:10%;position:center;border-radius:10%">
+     
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="text" id="Username" placeholder="Username" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="password" id="Pass" placeholder="Password" class="form-control" />
+                    <div style="float:left">@Html.ActionLink("Forget password", "Index", "Forget") </div>
+                </div>
+            </div>
+    
+            <div class="form-group" style="margin:auto">
+                    <input type="button" onclick="log()" value="Login" class="btn btn-default" />
+              
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div style="float:left"><a href="#" onclick="Register()">Create account</a></div>
+                </div>
+                </div>
+        </div>
+        </div>
+                </div>
+            <div class="col-md-4"></div>
+            </div>
+        </div>
+    
+</body>
+</html>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+
+
+
+<script>
+   var ServerAddress = "@Request.Url.Scheme" + "://" + "@Request.Url.Authority" + "@Request.ApplicationPath.TrimEnd('/')" + "/";
+    var log = function () {
+        var Username = $("#Username").val();
+        var Pass = $("#Pass").val();
+        $.ajax({
+            url: ServerAddress + "RealTime/Log",//add Controler Name,
+            type: "POST",
+            dataType: 'json',
+            data: { "Username": Username, "Pass": Pass },
+            cache: false,
+            success: function (result) {
+                if (result == true) {
+                    window.location.href = window.location.href = ServerAddress + "Home/Chat";
+                }
+                else
+                {
+                    $("#Username").val("");
+                    $("#Pass").val("");
+                }
+            },
+            error: function (err) {
+                alert("Error! Refresh");
+            }
+        });
+    }
+
+    var Register = function () {
+        $("#LogIn").empty();
+        $("#LogIn").append("<div class='form-group'>"
+            +"<div class='col-md-12'>"
+            +"<input type='text' style='width:100%' id='Email' placeholder='Email' class='form-control' />"
+            +"</div>"
+            +"</div>"
+            +"<div class='form-group'>"
+            +"<div class='col-md-12'>"
+            + "<input type='text' style='width:100%' id='Username' placeholder='Username' class='form-control' />"
+            +"</div>"
+            +"</div>"
+            +"<div class='form-group'>"
+            +"<div class='col-md-12'>"
+            +"<input type='password' style='width:100%' id='Pass' placeholder='Password' class='form-control' />"
+            +"</div>"
+            +"</div>"
+            +"<div class='form-group'>"
+            +"<div class='col-md-12'>"
+            +"<input type='text' style='width:100%' id='Name' placeholder='Name' class='form-control' />"
+            +"</div>"
+            +"</div>"
+            +"<div class='form-group'>"
+            + "<div class='col-md-12'>"
+            +"<input type='text' style='width:100%' id='Surname' placeholder='Surname' class='form-control' />"
+            +" </div>"
+            + "</div>"
+            + "<div class='form-group'>"
+            + "<div class='col-md-12'>"
+            + "<input type='file' style='width:100%' id='file' placeholder='Picture' class='form-control' />"
+            + " </div>"
+            + "</div>"
+            +"<div class='form-group' style='margin:auto'>"
+            +"<input type='button' onclick='Reg()' value='Register' class='btn btn-default' />"
+            +"</div>");
+        $("#LogText").text("Register");
+    }
+
+    var Reg = function () {
+
+        var Email = $("#Email").val();
+        var Username = $("#Username").val();
+        var Pass = $("#Pass").val();
+        var Name = $("#Name").val();
+        var Surname = $("#Surname").val();
+        var file = $("#file")[0].files[0];
+        var landmarkModel = new FormData();
+
+        var extension = file.name.split('.').pop();
+        if (extension == "jpeg" || extension == "jpg" || extension == "png" || extension == "JPG") {
+            landmarkModel.append(file.name, file);
+        }
+
+        var formObject = {};
+        formObject["Email"] = Email;
+        formObject["Username"] = Username;
+        formObject["Pass"] = Pass;
+        formObject["Named"] = Name;
+        formObject["Surname"] = Surname;
+        formObject["Picture"] = file.name;
+
+        for (var key in formObject) {
+            landmarkModel.append(key, formObject[key]);
+        }
+        var landmark = landmarkModel
+
+        $.ajax({
+            url: "/RealTime/Register",
+            type: "POST",
+            dataType: 'json',
+            data: landmarkModel,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if (result == true) {
+                    window.location.href = window.location.href = ServerAddress + "RealTime/Login";
+                }
+                else {
+
+                }
+            },
+            error: function (err) {
+                alert("Error! Refresh");
+            }
+        });
+    }
+</script>

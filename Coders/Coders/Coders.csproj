@@ -52,10 +52,34 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -155,28 +179,113 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CodersDB.Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodersDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="CodersDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CodersDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="CodersHub.cs" />
+    <Compile Include="Competition.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectionMapping.cs" />
+    <Compile Include="Controllers\CompetitionController.cs" />
+    <Compile Include="Controllers\ForgetController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RealTimeController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Data Layer\DLHint.cs" />
+    <Compile Include="Data Layer\DLLandmarks.cs" />
+    <Compile Include="Data Layer\HintView.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Graph\BadEdge.cs" />
+    <Compile Include="Graph\Edge.cs" />
+    <Compile Include="Graph\GraphAsLists.cs" />
+    <Compile Include="Graph\LinkedNode.cs" />
+    <Compile Include="Graph\Routs.cs" />
+    <Compile Include="Group.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hint.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Landmark.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Member.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Message.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Point.cs" />
+    <Compile Include="ModelViews\GroupView.cs" />
+    <Compile Include="ModelViews\HintsView.cs" />
+    <Compile Include="ModelViews\LandMarkView.cs" />
+    <Compile Include="ModelViews\NewLandmarksView.cs" />
+    <Compile Include="ModelViews\OnlineFriendsView.cs" />
+    <Compile Include="NewLandmark.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Participant.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rout.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SendMail\Mail.cs" />
+    <Compile Include="Solution.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Startup.cs" />
+    <Compile Include="User.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserRating.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserRout.cs">
+      <DependentUpon>CodersDB.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="CodersDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CodersDB.Context.cs</LastGenOutput>
+      <DependentUpon>CodersDB.edmx</DependentUpon>
+    </Content>
+    <Content Include="CodersDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CodersDB.edmx</DependentUpon>
+      <LastGenOutput>CodersDB.cs</LastGenOutput>
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\coverstyle.css" />
+    <Content Include="Content\lay.css" />
+    <Content Include="Content\MojChatCss\Chat.css" />
+    <Content Include="Content\newsstyle.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\profilestyle.css" />
+    <Content Include="Content\Zvezdice.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\8.png" />
+    <Content Include="Images\aca.jpg" />
+    <Content Include="Images\cover.jpg" />
+    <Content Include="Images\dana.jpg" />
+    <Content Include="Images\scroll.png" />
+    <Content Include="Scripts\AdminScripts\GoogleScripts.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -186,20 +295,28 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CodersDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="CodersDB.edmx.diagram">
+    <Content Include="CodersDB.edmx.diagram">
       <DependentUpon>CodersDB.edmx</DependentUpon>
-    </None>
+    </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\MojaChatScripta\CompetitionJS.js" />
+    <Content Include="Scripts\MojaChatScripta\GoogleMaps.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\MojaChatScripta\ChatSignalR.js" />
+    <Content Include="Scripts\MojaChatScripta\javascript.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="SQLQuery1.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -210,14 +327,27 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\RealTime\Index.cshtml" />
+    <Content Include="Views\RealTime\Login.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Home\NewLandmarks.cshtml" />
+    <Content Include="Views\Forget\Index.cshtml" />
+    <Content Include="Views\Forget\kod.cshtml" />
+    <Content Include="Views\Forget\Pass.cshtml" />
+    <Content Include="Views\Shared\Proba.cshtml" />
+    <Content Include="Views\Competition\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

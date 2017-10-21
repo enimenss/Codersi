@@ -20,7 +20,6 @@ namespace Coders
             this.Members = new HashSet<Member>();
             this.Messages = new HashSet<Message>();
             this.Participants = new HashSet<Participant>();
-            this.Solutions = new HashSet<Solution>();
         }
     
         public int Id { get; set; }
@@ -34,7 +33,5 @@ namespace Coders
         public virtual ICollection<Message> Messages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Participant> Participants { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Solution> Solutions { get; set; }
     }
 }

@@ -17,25 +17,30 @@ namespace Coders
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Landmark()
         {
-            this.ConditionedHints = new HashSet<ConditionedHint>();
-            this.ConditionedHints1 = new HashSet<ConditionedHint>();
+            this.Hints = new HashSet<Hint>();
+            this.Routs = new HashSet<Rout>();
+            this.Routs1 = new HashSet<Rout>();
             this.Solutions = new HashSet<Solution>();
+            this.Solutions1 = new HashSet<Solution>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public int City { get; set; }
+        public string FilePathLandmark { get; set; }
         public string FilePath { get; set; }
-        public string Description { get; set; }
-        public string Answer { get; set; }
-        public Nullable<int> Location_X { get; set; }
-        public Nullable<int> Location_Y { get; set; }
+        public Nullable<double> Location_X { get; set; }
+        public Nullable<double> Location_Y { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ConditionedHint> ConditionedHints { get; set; }
+        public virtual ICollection<Hint> Hints { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ConditionedHint> ConditionedHints1 { get; set; }
+        public virtual ICollection<Rout> Routs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rout> Routs1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Solution> Solutions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Solution> Solutions1 { get; set; }
     }
 }

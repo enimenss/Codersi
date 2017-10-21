@@ -1,0 +1,265 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@{
+    var ServerAddress = @Request.Url.Scheme + "://" + @Request.Url.Authority + @Request.ApplicationPath.TrimEnd('/');
+}
+
+<style>
+    .customMarker {
+        position: absolute;
+        cursor: pointer;
+        background: #424242;
+        width: 20px;
+        height: 20px;
+        /* -width/2 */
+        /*margin-left: -5px;
+        /* -height + arrow */
+        margin-top: -5px;
+        border-radius: 50%;
+        padding: 0px;
+    }
+
+        .customMarker:after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            /*left: 1px;*/
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: #424242 transparent;
+            display: block;
+            width: 0;
+        }
+
+        .customMarker img {
+            width: 17px;
+            height: 17px;
+            margin: 1px;
+            border-radius: 50%;
+        }
+</style>
+<div id="body" style="width:100%;height:100%">
+    <div id="mapPlace" style="width:100%;height:400px;">
+
+    </div>
+</div>
+<script>
+    function swipedetect(el, callback) {
+
+        var touchsurface = el,
+            swipedir,
+            startX,
+            startY,
+            distX,
+            distY,
+            threshold = 50, //required min distance traveled to be considered swipe
+            restraint = 100, // maximum distance allowed at the same time in perpendicular direction
+            allowedTime = 300, // maximum time allowed to travel that distance
+            elapsedTime,
+            startTime,
+            handleswipe = callback || function (swipedir) { }
+
+        touchsurface.addEventListener('touchstart', function (e) {
+            var touchobj = e.changedTouches[0]
+            swipedir = 'none'
+            dist = 0
+            startX = touchobj.pageX
+            startY = touchobj.pageY
+            startTime = new Date().getTime() // record time when finger first makes contact with surface
+            e.preventDefault()
+        }, false)
+
+        touchsurface.addEventListener('touchmove', function (e) {
+            e.preventDefault() // prevent scrolling when inside DIV
+        }, false)
+
+        touchsurface.addEventListener('touchend', function (e) {
+            var touchobj = e.changedTouches[0]
+            distX = touchobj.pageX - startX // get horizontal dist traveled by finger while in contact with surface
+            distY = touchobj.pageY - startY // get vertical dist traveled by finger while in contact with surface
+            elapsedTime = new Date().getTime() - startTime // get time elapsed
+            if (elapsedTime <= allowedTime) { // first condition for awipe met
+                if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) { // 2nd condition for horizontal swipe met
+                    swipedir = (distX < 0) ? 'left' : 'right' // if dist traveled is negative, it indicates left swipe
+                }
+                else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint) { // 2nd condition for vertical swipe met
+                    swipedir = (distY < 0) ? 'up' : 'down' // if dist traveled is negative, it indicates up swipe
+                }
+            }
+            handleswipe(swipedir)
+        }, false)
+    }
+
+    var el = document.getElementById('body')
+    swipedetect(el, function (swipedir) {
+        if (swipedir == 'right')
+            window.location.href = ServerAddress + "Home/Chat";
+    })
+
+
+</script>
+
+
+
+<div class="form-group">
+    <button class="btn btn-default" style="background-color:#D5B267" onclick="NextHint()">Sledeci hint</button>
+    <button class="btn btn-default" style="background-color:#D5B267" onclick="ShowHint()">Hint</button>
+    <button class="btn btn-default" onclick="ShowLandmark()" style="background-color:#D5B267">Landmark</button>
+    <button class="btn btn-default" id="folow" value=0 onclick="ChangeFollow()" style="background-color:#D5B267">Follow</button>
+    <button class="btn btn-default" style="background-color:#D5B267" onclick="GetDirection()">Get direction</button>
+</div>
+
+
+<div id="CurrentHint">
+    <label id="HintDescription"></label>
+</div>
+
+
+<div class="modal modal-scroll" id="CompetitionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-fluid" style="width:50%" role="document">
+        <div id="dropzone" class="dropzone">
+            <div class="modal-content" style="background-color:transparent;background-image: url(@ServerAddress/Images/scroll.png); background-size: 100% 100%;background-repeat: no-repeat; background-origin: content-box;">
+                <div class="modal-header" id="headerModal">
+                </div>
+                <div class="modal-body">
+                    <div class="container" id="editDetails">
+                    </div>
+                </div>
+                <div id="modalEdit" class="modal-footer"></div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function NextHint() {
+
+        var modalHeader = $('#headerModal');
+        modalHeader.empty();
+        modalHeader.append("<h3>Next hint</h3>");
+        var popUpBody = $('#CompetitionModal');
+        var modalBody = $("#editDetails");
+        modalBody.empty();
+
+        $('#AnswerWrong').empty();
+        $("<div class='form-group' id='DivDescription'></div>").appendTo(modalBody);
+        $('#DivDescription').append("<label class='col-md-5'>Description: </label>");
+        $('#DivDescription').append("<input class='col-md-5 form-control' type='text' id='Description'/><br />");
+        $('#Description').val(Hints[0].Description);
+
+        $("<div class='form-group' id='DivAnswer'></div>").appendTo(modalBody);
+        $('#DivAnswer').append("<label class='col-md-5'>Answer: </label>");
+        $('#DivAnswer').append("<input class='col-md-5 form-control' type='text' id='Answer'/><br />");
+        $('#Answer').val(null);
+        var modalFooter = $("#modalEdit");
+        modalFooter.empty();
+        modalFooter.append("<button onclick='AnswerLater()' class='btn btn-default'>Later</button>");
+        modalFooter.append("<button onclick='AnswerForHint()' class='btn btn-default'>Try</button>");
+        popUpBody.modal("show");
+
+        //$.ajax({
+        //    type: "POST",
+        //    dataType: "json",
+        //    data: { "landmarkId": landmarkId, "hintId": hintId },
+        //    url: "/Competition/NextHint",
+        //    chache: false,
+        //    success: function (data) {
+        //        if (data !== null) {
+        //            hint = data;
+        //            var modalHeader = $('#headerModal');
+        //            modalHeader.empty();
+        //            modalHeader.append("<h3>Next hint</h3>");
+        //            var popUpBody = $('#CompetitionModal');
+        //            var modalBody = $("#editDetails");
+        //            modalBody.empty();
+
+        //            $('#AnswerWrong').empty();
+        //            $("<div class='form-group' id='DivDescription'></div>").appendTo(modalBody);
+        //            $('#DivDescription').append("<label class='col-md-5'>Description: </label>");
+        //            $('#DivDescription').append("<input class='col-md-5 form-control' type='text' id='Description'/><br />");
+        //            $('#Description').val(data.Description);
+
+        //            $("<div class='form-group' id='DivAnswer'></div>").appendTo(modalBody);
+        //            $('#DivAnswer').append("<label class='col-md-5'>Answer: </label>");
+        //            $('#DivAnswer').append("<input class='col-md-5 form-control' type='text' id='Answer'/><br />");
+        //            $('#Answer').val(null);
+        //            var modalFooter = $("#modalEdit");
+        //            modalFooter.empty();
+        //            modalFooter.append("<button onclick='AnswerLater()' class='btn btn-default'>Later</button>");
+        //            modalFooter.append("<button onclick='AnswerForHint()' class='btn btn-default'>Try</button>");
+        //            popUpBody.modal("show");
+        //        }
+        //    }
+        //});
+    }
+
+    var TeamData = new Array();
+    var ServerAddres= "@Request.Url.Scheme" + "://" + "@Request.Url.Authority" + "@Request.ApplicationPath.TrimEnd('/')" + "/";
+    var myIndetification='@Session["User"].ToString()';
+    var RefreshRate = 1000;
+    var MyLandMark = null;
+    var MyCurrentNode = null;
+    var Hints = new Array();
+    var ObHints = new Array();
+    console.log(myIndetification);
+    function init()
+    {
+        var gsricpt = document.createElement("script");
+        gsricpt.src = ServerAddres + "Scripts/MojaChatScripta/GoogleMaps.js";
+
+        document.head.appendChild(gsricpt);
+        //PopulateTeamData();
+    }
+    function ChangeFollow()
+    {
+        
+       changeFallowvalue();
+    }
+    showModelForLandMark = function ()
+    {
+        ShowLandmark();
+    }
+    function GetDirection()
+    {
+        showDirections();
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBcvyYPgEo5QbqacjaxMCqs_GgQ6PPSyvE&callback=init"></script>
+<script src="~/Scripts/MojaChatScripta/CompetitionJS.js"></script>
+<script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+<script src="~/signalr/hubs"></script>
+
+
+<script>
+
+    $(function () {
+
+        var myHub = $.connection.CodersHub;
+
+        myHub.client.updateClientPosition = function (x, y, guid) {
+            if (guid != myIndetification)
+                setTeamMatePosition(guid, x, y, TeamData[guid].Picture);
+        }
+
+
+        $.connection.hub.qs = { "GUID": myIndetification };
+        $.connection.hub.start().done(function () {
+
+            updateMyPositionInGroup = function () {
+
+
+                myHub.server.changeLocation(TeamData[myIndetification].PosX, TeamData[myIndetification].PosY);
+            }
+            function refreshPosition() {
+                updateMyPositionInGroup();
+            }
+            setInterval(refreshPosition, RefreshRate);
+
+        });
+    });
+
+
+</script>

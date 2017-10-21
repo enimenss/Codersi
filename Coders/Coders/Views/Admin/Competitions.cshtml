@@ -1,0 +1,91 @@
+﻿@model ICollection <Coders.Models.CompetitionView>
+
+@{
+    ViewBag.Title = "Competitions";
+}
+@{
+    var ServerAddress = @Request.Url.Scheme + "://" + @Request.Url.Authority + @Request.ApplicationPath.TrimEnd('/');
+}
+
+<h2>Competitions</h2>
+<header>
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <link href="~/Scripts/ResponsivnaPlavaTabela.css" rel="stylesheet" />
+
+</header>
+<style>
+    .dataTables_wrapper {
+        font-size: 9px;
+    }
+
+    .table-hover > tbody > tr:hover > td {
+        background-color: #e8d2a2;
+    }
+
+    .btn {
+        padding: 1px 5px 1px 5px;
+    }
+
+    .table.dataTable thead .sorting {
+        padding: 1px 3px 1px 5px;
+    }
+    .dataTables_wrapper {
+        width: 85%;
+        margin: auto;
+        margin-top: 3%;
+        margin-bottom: 3%;
+    }
+
+    .table.dataTable tbody tr {
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-origin: content-box;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: linear-gradient(to bottom, #fff 0%, #e8d2a2 100%);
+    }
+</style>
+<hr />
+<div style="background-image: url(@ServerAddress/Images/scroll.png); background-size: 100% 100%;background-repeat: no-repeat; background-origin: content-box;">
+        <table id="Competitions" class="table inverse table-hover responstable" style="width:85%;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Type</th>
+                    <th>City</th>
+                    <th>Landmarks</th>
+                    <th>Groups</th>
+                </tr>
+            </thead>
+            @foreach(var c in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => c.Name)</td>
+                    <td>@Html.DisplayFor(x=>c.StartingDate)</td>
+                    <td>@Html.DisplayFor(x => c.EndingDate)</td>
+                    <td>@Html.DisplayFor(x => c.Type)</td>
+                    <td>@Html.DisplayFor(x => c.City)</td>
+                    <td>@Html.DisplayFor(x => c.LandmarkCount)</td>
+                    <td><button class="btn btn-default" style="color:white; background-color:#D5B267" onclick="location.href='@Url.Action("Groups", "Admin", new { guid = c.Guid })'"><span class="glyphicon glyphicon-folder-open"></span></button></td>
+                </tr>
+            }
+        </table>
+</div>
+<link href="~/Scripts/DataTableStil.css" rel="stylesheet" />
+
+<script>    
+    $(document).ready(function () {
+        $('#Competitions').DataTable();
+        $('#Competitions_filter').addClass('searchbox_1');
+        $('#Competitions_filter input').addClass('search_1');
+        $('#Competitions_filter input').attr("placeholder", "Search");
+        $('#Competitions_length select').addClass('zaDuzinu');
+        $('#Competitions_length label').addClass('boja');
+        $('#Competitions_info').addClass('fonts');
+        $('#Competitions_paginate').addClass('fonts');
+    });
+</script>

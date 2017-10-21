@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<button onclik="NextHint()">Sledeci hint</button>
+<button onclick="ShowHint()">Hint</button>
+<button onclick="ShowLandmark()">Landmark</button>
+
+<div id="CurrentHint">
+    <label id="HintDescription"></label>
+    <div id="AnswerButton"><button onclick='Hint()' class='btn btn-default'>Try</button></div>
+</div>
+
+
+<div class="modal modal-scroll fade" id="CompetitionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" style="width:55%" role="document">
+        <div class="modal-content" style="background-color: #5cb85c">
+            <div class="modal-header" id="headerModal"></div>
+            <div class="dropzone" id="dropzone">
+                <div class="modal-body">
+                    <div class="container" id="editDetails">
+                    </div>
+                </div>
+            </div>
+            <div id="modalEdit" class="modal-footer"></div>
+        </div>
+    </div>
+</div>

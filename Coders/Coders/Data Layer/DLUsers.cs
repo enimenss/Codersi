@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Coders.Models;
+using CodersJoca.Models;
 
-namespace Coders.Data_Layer
+namespace CodersJoca.Data_Layer
 {
     public class DLUser
     {
@@ -69,6 +69,14 @@ namespace Coders.Data_Layer
                 db.Users.Attach(user);
                 //user.Deleted = 1;
                 db.SaveChanges();
+            }
+        }
+
+        public int FindUsersId(Guid guid)
+        {
+            using (db = new CodersEntities())
+            {
+                return (from u in db.Users where u.Guid == guid select u.Id).FirstOrDefault();
             }
         }
     }

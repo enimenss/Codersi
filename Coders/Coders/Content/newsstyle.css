@@ -1,0 +1,35 @@
+@import url(https://fonts.googleapis.com/css?family=MedievalSharp);
+
+
+/* NEWS PAGE STYLE FOLLOWS */
+
+.news-item {
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 5%;
+}
+
+.news-title {
+    width:100%;
+    margin-top: 3%;
+	margin-left: 8%;
+}
+
+.news-read-more {
+	bottom: 0;
+	text-align: right;
+}
+
+.news-pagination {
+	text-align: center;
+}
+.news-pagination > ul {
+	margin: 0;
+}
+
+.border-pagination
+{
+	border-width: 3px; 
+	border-color: black; 
+	border-style: solid;
+}

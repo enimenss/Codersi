@@ -1,0 +1,43 @@
+﻿
+
+<!DOCTYPE html>
+
+@{ 
+    Layout = "~/Views/Shared/Proba.cshtml";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div style="margin:auto"> 
+@using (Html.BeginForm("Index", "Forget", FormMethod.Post)) {
+    {
+      
+        <table style="width:80%;margin:auto">
+            <tr>
+                <td><strong style="color:black">Unesi mail:</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" class="form-control col-md-3" style="color:black" name="email" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-send"></span> Send</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   <p class="alert-danger">@ViewBag.errorMassage</p>
+                </td>
+            </tr>
+        </table>
+    }
+}
+    </div>
+</body>
+</html>

@@ -3,22 +3,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Coders.Data_Layer;
-using Coders.Models;
-using static Coders.Enums;
+using CodersJoca.Data_Layer;
+using CodersJoca.Models;
+using static CodersJoca.Enums;
+using System.IO;
+using CodersJoca;
+using CodersJoca.Graph;
 
-namespace Coders.Controllers
+namespace CodersJoca.Controllers
 {
     public class AdminController : Controller
     {
         static int userFilter = -1;
         static int competitionFilter = -1;
         static int landmarkFilter = -1;
+        static Guid competitionGuid = new Guid();
 
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
+            Session["User"] = Guid.Parse("3995CBCC-E1DC-4B30-B924-C6C3010164EA");
+            var newLandmarks = DLLandmarks.Data.ReturnNewLandmarks();
+            return View(newLandmarks);
+        }
+
+        public ActionResult Competitions()
+        {
+            var competitions = DLCompetition.Data.ReturnStartingCompetitions();
+            return View(competitions);
+        }
+
+        public ActionResult Groups(Guid guid)
+        {
+            competitionGuid = guid;
+            var groups = DLCompetition.Data.ReturnGroups(guid);
+            return View(groups);
+        }
+
+        public JsonResult NewGroup(string id)
+        {
+            Group group = new Group();
+            group.Name = id;
+            group.CountOfFounds = 1;
+            var guid = competitionGuid;
+            DLCompetition.Data.SaveGroup(group, guid, (Guid)Session["User"]);
+            return Json(true);
+        }
+
+        public ActionResult Join(Guid guid)
+        {
+            DLCompetition.Data.JoinGroup(guid, (Guid)Session["User"]);
+            return RedirectToAction("Index", "Admin");
         }
 
         public JsonResult LoadUsers()
@@ -398,10 +433,61 @@ namespace Coders.Controllers
 
         public JsonResult AddLandmark(LandmarkView landmark)
         {
-            //LandmarkView landmarkView = new LandmarkView();
-            //landmarkView.City = city;
-            //landmarkView.Name = name;
-            DLLandmarks.Data.AddLandmark(landmark);
+            if (Request.Files.Count > 0)
+            {
+                HttpFileCollectionBase files = Request.Files;
+                string fname;
+                for (int i = 0; i < files.Count; i++)
+                {
+                    HttpPostedFileBase file = files[i];
+
+                    fname = file.FileName;
+                    string[] nameAndExtension = fname.Split('.');
+                    if (nameAndExtension[1].ToLower() == "pdf" || nameAndExtension[1].ToLower() == "jpg" || nameAndExtension[1].ToLower() == "png")
+                    {
+                        fname = nameAndExtension[0] + "." + nameAndExtension[1];
+                        fname = Path.Combine(Server.MapPath("~/Images"), fname);
+
+                        file.SaveAs(fname);
+                        DLLandmarks.Data.AddLandmark(landmark);
+                        return Json(true);
+                    }
+                    else
+                    {
+                        return Json(false);
+                    }
+                }
+            }
+            return Json(false);
+        }
+
+        public JsonResult UserAddLandmark(NewLandmarkView landmark)
+        {
+            if (Request.Files.Count > 0)
+            {
+                HttpFileCollectionBase files = Request.Files;
+                string fname;
+                for (int i = 0; i < files.Count; i++)
+                {
+                    HttpPostedFileBase file = files[i];
+
+                    fname = file.FileName;
+                    string[] nameAndExtension = fname.Split('.');
+                    if (nameAndExtension[1].ToLower() == "pdf" || nameAndExtension[1].ToLower() == "jpg" || nameAndExtension[1].ToLower() == "png")
+                    {
+                        fname = nameAndExtension[0] + "." + nameAndExtension[1];
+                        fname = Path.Combine(Server.MapPath("~/Images"), fname);
+
+                        file.SaveAs(fname);
+                        DLLandmarks.Data.UserAddLandmark(landmark);
+                    }
+                    else
+                    {
+                        return Json(false);
+                    }
+                }
+            }
+
             return Json(true);
         }
 
@@ -413,6 +499,77 @@ namespace Coders.Controllers
             hint.Landmark_Id = landmarkId;
             DLHint.Data.AddHint(hint);
             return Json(true);
+        }
+
+        public JsonResult DeleteNewLandmark(int id)
+        {
+            DLLandmarks.Data.DeleteNewLandmark(id);
+            return Json(true);
+        }
+
+        [HttpPost]
+        public JsonResult MakeAGraph(string city)
+        {
+            CodersEntities db = new CodersEntities();
+            var Data = (from l in db.Landmarks
+                        select new
+                        {
+                            Id = l.Id,
+                            Lat = l.Location_X,
+                            Lon = l.Location_Y,
+                            Name = l.Name
+                        }).ToList();
+            return Json(Data);
+        }
+
+        [HttpPost]
+        public JsonResult GetGraph(List<Point> graph, bool? saveToDatabase, int City, int CompatitionId)
+        {
+            CodersEntities db = new CodersEntities();
+            if (graph == null) return Json(false);
+            List<Solution> Edges = new List<Solution>();
+            foreach (var ele in graph)
+            {
+                Edges.Add(new Solution { Fulfilled = 1, LandmarkChild_Id = ele.id2, LandmarkParent_Id = ele.id1 });
+            }
+            GraphAsLists Graph = new GraphAsLists();
+            Graph.MakeAGraph(City, CompatitionId, Edges);
+            List<BadEdge> bads = Graph.topologicalOrderTrav();
+            bads = bads.Concat(Graph.ConnectEdge(Graph.AllPathInRim())).ToList();
+            if (bads.Count > 0)
+            {
+
+                return Json(bads);
+            }
+
+            foreach (var ele in graph)
+            {
+                Solution s = new Solution { Fulfilled = 1, LandmarkChild_Id = ele.id2, LandmarkParent_Id = ele.id1 };
+                db.Solutions.Add(s);
+                db.SaveChanges();
+            }
+            return Json(true);
+        }
+
+        [HttpPost]
+        public JsonResult GetRouts(List<Point> graph, int numBersOfTeamMates, bool? fromDatabase, int City, int CompatitionId)
+        {
+            GraphAsLists Graph = new GraphAsLists();
+            if (fromDatabase == false)
+            {
+                List<Solution> Edges = new List<Solution>();
+                foreach (var ele in graph)
+                {
+                    Edges.Add(new Solution { Fulfilled = 1, LandmarkChild_Id = ele.id2, LandmarkParent_Id = ele.id1 });
+                }
+                Graph.MakeAGraph(City, CompatitionId, Edges);
+            }
+            else
+            {
+                Graph.MakeAGraph(City, CompatitionId);
+            }
+            var x = Graph.GenareRouts(numBersOfTeamMates);
+            return Json(x);
         }
     }
 }

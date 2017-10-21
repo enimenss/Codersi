@@ -19,6 +19,9 @@ namespace Coders
         {
             this.Members = new HashSet<Member>();
             this.Messages = new HashSet<Message>();
+            this.NewLandmarks = new HashSet<NewLandmark>();
+            this.UserRatings = new HashSet<UserRating>();
+            this.UserRouts = new HashSet<UserRout>();
         }
     
         public int Id { get; set; }
@@ -28,10 +31,19 @@ namespace Coders
         public string Surname { get; set; }
         public string Email { get; set; }
         public System.Guid Guid { get; set; }
+        public string Picture { get; set; }
+        public Nullable<double> Location_X { get; set; }
+        public Nullable<double> Location_Y { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Member> Members { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Message> Messages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NewLandmark> NewLandmarks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserRating> UserRatings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserRout> UserRouts { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace Coders
         public string Description { get; set; }
         public string Answer { get; set; }
         public Nullable<int> Landmark_Id { get; set; }
+        public Nullable<int> Radius { get; set; }
     
         public virtual Landmark Landmark { get; set; }
     }

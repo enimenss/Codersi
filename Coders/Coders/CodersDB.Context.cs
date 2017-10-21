@@ -26,13 +26,17 @@ namespace Coders
         }
     
         public virtual DbSet<Competition> Competitions { get; set; }
-        public virtual DbSet<ConditionedHint> ConditionedHints { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Hint> Hints { get; set; }
         public virtual DbSet<Landmark> Landmarks { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<NewLandmark> NewLandmarks { get; set; }
         public virtual DbSet<Participant> Participants { get; set; }
+        public virtual DbSet<Rout> Routs { get; set; }
         public virtual DbSet<Solution> Solutions { get; set; }
+        public virtual DbSet<UserRating> UserRatings { get; set; }
+        public virtual DbSet<UserRout> UserRouts { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }

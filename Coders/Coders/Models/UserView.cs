@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
-using Coders;
+using CodersJoca;
 
-namespace Coders.Models
+namespace CodersJoca.Models
 {
     public class UserView
     {

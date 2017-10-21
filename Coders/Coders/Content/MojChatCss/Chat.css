@@ -1,0 +1,104 @@
+﻿.chatProba {
+    /*padding-bottom:5%;*/
+}
+
+.send {
+}
+
+.recv {
+}
+
+.myseen {
+}
+
+.round-corner {
+    -webkit-border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -o-border-radius: 5px 5px 5px 5px;
+    border-radius: 30px 30px 30px 30px;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.circle {
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 13px;
+    height: 13px;
+    float: right;
+    position: center;
+    background-color: darkgreen;
+    color: darkgreen;
+}
+
+.circleOff {
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 13px;
+    height: 13px;
+    float: right;
+    position: center;
+    background-color: black;
+    color: black;
+}
+
+.slicka {
+    border-radius: 50%;
+}
+
+.tooltipR {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+    .tooltipR .tooltiptextR {
+        visibility: hidden;
+        width: 200px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -60px;
+        font-size: 15px;
+    }
+
+    .tooltipR:hover .tooltiptextR {
+        visibility: visible;
+    }
+
+
+.tooltipS {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+    .tooltipS .tooltiptextS {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        top: 100%;
+        left: 50%;
+        margin-left: -60px;
+    }
+
+    .tooltipS:hover .tooltiptextS {
+        visibility: visible;
+    }
